@@ -5,12 +5,15 @@ import { auth } from "@/lib/auth";
 
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { ReactNode } from "react";
+
+interface ProjectsLayoutProps {
+  children: ReactNode;
+}
 
 export default async function ProjectsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+  children
+}: ProjectsLayoutProps) {
   const session = await auth();
 
   if (!session?.user) {
@@ -37,7 +40,11 @@ export default async function ProjectsLayout({
       <div className="flex flex-1 flex-col overflow-hidden">
         <Navbar projects={projects} />
 
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto p-6">
+          <>
+            {children}
+          </>
+        </main>
       </div>
     </div>
   );

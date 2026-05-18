@@ -9,6 +9,7 @@ interface Task {
   title: string;
   description?: string | null;
   status: TaskStatus;
+  projectId: string;
 }
 interface KanbanColumnProps {
   title: string;
@@ -32,6 +33,7 @@ export function KanbanColumn({ title, status, tasks }: KanbanColumnProps) {
           title={task.title}
           description={task.description ?? null}
           status={task.status}
+          projectId={task.projectId}
         />
       ))}
     </div>

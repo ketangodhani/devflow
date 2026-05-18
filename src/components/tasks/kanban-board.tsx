@@ -14,6 +14,7 @@ interface Task {
   title: string;
   description: string | null;
   status: TaskStatus;
+  projectId: string;
 }
 
 interface KanbanBoardProps {
