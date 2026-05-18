@@ -3,15 +3,12 @@ import TaskDetailsContent from "@/components/tasks/task-details-content";
 
 interface Props {
   params: Promise<{
-    projectId: string;
     taskId: string;
   }>;
 }
 
 export default async function TaskPage({ params }: Props) {
-  const { projectId, taskId } = await params;
-  console.log(projectId);
-  console.log(taskId);
+  const { taskId } = await params;
 
   if (!taskId) {
   return <div>Invalid task</div>;
