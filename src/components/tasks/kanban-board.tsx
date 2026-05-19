@@ -16,6 +16,7 @@ interface Task {
   status: TaskStatus;
   projectId: string;
   priority: TaskPriority;
+  labels: string[];
 }
 
 interface KanbanBoardProps {

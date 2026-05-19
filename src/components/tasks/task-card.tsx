@@ -13,6 +13,7 @@ interface TaskCardProps {
   status: TaskStatus;
   projectId: string;
   priority: TaskPriority;
+  labels: string[];
 }
 export function TaskCard({
   id,
@@ -20,6 +21,7 @@ export function TaskCard({
   description,
   projectId,
   priority,
+  labels,
 }: TaskCardProps) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
   const style = {
@@ -61,7 +63,16 @@ export function TaskCard({
               {priority}
             </span>
           </div>
-
+          <div className="mt-3 flex flex-wrap gap-2">
+            {labels.map((label) => (
+              <span
+                key={label}
+                className="rounded-full bg-zinc-800 px-2 py-1 text-xs text-zinc-300"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
           <p className="mt-2 text-sm text-zinc-400">{description}</p>
         </div>
         {/* </Link> */}

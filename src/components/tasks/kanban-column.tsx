@@ -11,6 +11,7 @@ interface Task {
   status: TaskStatus;
   projectId: string;
   priority: TaskPriority;
+  labels: string[];
 }
 interface KanbanColumnProps {
   title: string;
@@ -36,6 +37,7 @@ export function KanbanColumn({ title, status, tasks }: KanbanColumnProps) {
           status={task.status}
           projectId={task.projectId}
           priority={task.priority}
+          labels={task.labels}
         />
       ))}
     </div>
