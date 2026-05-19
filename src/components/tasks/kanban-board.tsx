@@ -2,7 +2,7 @@
 
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
-import { TaskStatus } from "@prisma/client";
+import { TaskStatus, TaskPriority } from "@prisma/client";
 
 import { updateTaskStatus } from "@/actions/task";
 
@@ -15,6 +15,7 @@ interface Task {
   description: string | null;
   status: TaskStatus;
   projectId: string;
+  priority: TaskPriority;
 }
 
 interface KanbanBoardProps {

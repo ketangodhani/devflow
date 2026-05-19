@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import TaskDeleteButton from "./task-delete-button";
 import TaskStatusSelect from "./task-select-status";
+import TaskPrioritySelect from "./task-priority-select";
 
 interface Props {
   task: any;
@@ -12,6 +13,11 @@ export default function TaskSidebar({ task }: Props) {
       <TaskStatusSelect
         taskId={task.id}
         currentStatus={task.status}
+        projectId={task.projectId}
+      />
+      <TaskPrioritySelect
+        taskId={task.id}
+        currentPriority={task.priority}
         projectId={task.projectId}
       />
       <div>

@@ -2,7 +2,7 @@
 
 import { useDroppable } from "@dnd-kit/core";
 import { TaskCard } from "./task-card";
-import { TaskStatus } from "@prisma/client";
+import { TaskPriority, TaskStatus } from "@prisma/client";
 
 interface Task {
   id: string;
@@ -10,6 +10,7 @@ interface Task {
   description?: string | null;
   status: TaskStatus;
   projectId: string;
+  priority: TaskPriority;
 }
 interface KanbanColumnProps {
   title: string;
@@ -34,6 +35,7 @@ export function KanbanColumn({ title, status, tasks }: KanbanColumnProps) {
           description={task.description ?? null}
           status={task.status}
           projectId={task.projectId}
+          priority={task.priority}
         />
       ))}
     </div>
