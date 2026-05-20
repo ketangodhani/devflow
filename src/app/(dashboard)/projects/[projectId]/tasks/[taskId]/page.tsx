@@ -11,11 +11,11 @@ export default async function TaskPage({ params }: Props) {
   const { taskId } = await params;
 
   if (!taskId) {
-  return <div>Invalid task</div>;
-}
+    return <div>Invalid task</div>;
+  }
 
   const task = await prisma.task.findUnique({
-     where: {
+    where: {
       id: taskId,
     },
     include: {
@@ -26,15 +26,23 @@ export default async function TaskPage({ params }: Props) {
         },
         take: 10,
       },
+      assignee: true,
     },
   });
-   if (!task) {
+  if (!task) {
     return <div>Task not found</div>;
   }
+  const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      email: true,
+    },
+  });
 
   return (
     <div className="p-6">
-      <TaskDetailsContent task={task} />
+      <TaskDetailsContent task={task} users={users} />
     </div>
   );
 }

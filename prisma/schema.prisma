@@ -15,10 +15,12 @@ model User {
   image         String?
   password      String?
 
+  assignedTasks Task[] @relation("AssignedTasks")
+
   accounts Account[]
   sessions Session[]
 
-  projects Project[]
+  projects   Project[]
   activities Activity[]
 
   createdAt DateTime @default(now())
@@ -26,14 +28,14 @@ model User {
 }
 
 model Project {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
   description String?
 
   userId String
-  user   User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 
-  tasks Task[]
+  tasks      Task[]
   activities Activity[]
 
   createdAt DateTime @default(now())
@@ -48,17 +50,21 @@ enum TaskPriority {
 }
 
 model Task {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
   description String?
 
-  status TaskStatus @default(TODO)
+  status   TaskStatus   @default(TODO)
   priority TaskPriority @default(MEDIUM)
 
   labels String[]
 
   dueDate DateTime?
-  
+
+  assigneeId String?
+
+  assignee User? @relation("AssignedTasks", fields: [assigneeId], references: [id])
+
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
@@ -109,21 +115,22 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
 model Activity {
   id String @id @default(cuid())
 
-  action String
-  entityType String
+  action      String
+  entityType  String
   entityTitle String
 
   userId String
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 
   projectId String?
-  project Project? @relation(fields: [projectId], references: [id])
+  project   Project? @relation(fields: [projectId], references: [id])
 
   taskId String?
-  task Task? @relation(fields: [taskId], references: [id])
+  task   Task?   @relation(fields: [taskId], references: [id])
 
   createdAt DateTime @default(now())
 }

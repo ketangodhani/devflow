@@ -6,9 +6,14 @@ import TaskSidebar from "./task-sidebar";
 
 interface Props {
   task: any;
+  users: {
+    id: string;
+    name: string | null;
+    email: string | null;
+  }[];
 }
 
-export default function TaskDetailsContent({ task }: Props) {
+export default function TaskDetailsContent({ task, users }: Props) {
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
       <div className="space-y-8">
@@ -19,7 +24,7 @@ export default function TaskDetailsContent({ task }: Props) {
         <TaskActivity activities={task.activities} />
       </div>
 
-      <TaskSidebar task={task} />
+      <TaskSidebar task={task} users={users} />
     </div>
   );
 }

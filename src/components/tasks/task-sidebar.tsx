@@ -4,12 +4,18 @@ import TaskStatusSelect from "./task-select-status";
 import TaskPrioritySelect from "./task-priority-select";
 import TaskLabels from "./task-labels";
 import TaskDueDatePicker from "./task-due-date-picker";
+import TaskAssigneeSelect from "./task-assignee-select";
 
 interface Props {
   task: any;
+  users: {
+    id: string;
+    name: string | null;
+    email: string | null;
+  }[];
 }
 
-export default function TaskSidebar({ task }: Props) {
+export default function TaskSidebar({ task, users }: Props) {
   return (
     <div className="space-y-6 rounded-2xl border border-zinc-800 bg-zinc-950 p-6 h-fit sticky top-6 overflow-visible">
       <TaskLabels
@@ -25,6 +31,12 @@ export default function TaskSidebar({ task }: Props) {
       <TaskStatusSelect
         taskId={task.id}
         currentStatus={task.status}
+        projectId={task.projectId}
+      />
+      <TaskAssigneeSelect
+        taskId={task.id}
+        currentAssigneeId={task.assigneeId}
+        users={users}
         projectId={task.projectId}
       />
       <TaskPrioritySelect
