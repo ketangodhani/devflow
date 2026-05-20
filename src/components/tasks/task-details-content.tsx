@@ -3,6 +3,8 @@ import TaskHeader from "./task-header";
 import TaskDescription from "./task-description";
 import TaskActivity from "./task-activity";
 import TaskSidebar from "./task-sidebar";
+import CommentList from "../comments/comment-list";
+import CommentForm from "../comments/comment-form";
 
 interface Props {
   task: any;
@@ -20,6 +22,19 @@ export default function TaskDetailsContent({ task, users }: Props) {
         <TaskHeader task={task} />
 
         <TaskDescription task={task} />
+        <div className="mt-10 space-y-6">
+          <div>
+            <h2 className="text-xl font-semibold text-white">Comments</h2>
+
+            <p className="mt-1 text-sm text-zinc-500">
+              Collaborate with your team.
+            </p>
+          </div>
+
+          <CommentForm taskId={task.id} projectId={task.projectId} />
+
+          <CommentList comments={task.comments} />
+        </div>
 
         <TaskActivity activities={task.activities} />
       </div>

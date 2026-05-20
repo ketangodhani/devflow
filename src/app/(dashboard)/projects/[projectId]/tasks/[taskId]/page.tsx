@@ -27,6 +27,14 @@ export default async function TaskPage({ params }: Props) {
         take: 10,
       },
       assignee: true,
+      comments: {
+        include: {
+          user: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
   if (!task) {

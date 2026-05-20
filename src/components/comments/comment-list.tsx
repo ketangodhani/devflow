@@ -1,0 +1,52 @@
+import { formatDistanceToNow } from "date-fns";
+
+interface Comment {
+  id: string;
+  content: string;
+
+  createdAt: Date;
+
+  user: {
+    name: string | null;
+    email: string | null;
+  };
+}
+
+interface Props {
+  comments: Comment[];
+}
+
+export default function CommentList({
+  comments,
+}: Props) {
+  return (
+    <div className="space-y-4">
+      {comments.map((comment) => (
+        <div
+          key={comment.id}
+          className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4"
+        >
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-sm font-medium text-white">
+              {comment.user.name ||
+                comment.user.email}
+            </p>
+
+            <p className="text-xs text-zinc-500">
+              {formatDistanceToNow(
+                new Date(comment.createdAt),
+                {
+                  addSuffix: true,
+                }
+              )}
+            </p>
+          </div>
+
+          <p className="text-sm leading-relaxed text-zinc-300">
+            {comment.content}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+}
