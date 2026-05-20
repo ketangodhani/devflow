@@ -6,6 +6,7 @@ interface LogActivityParams {
     entityTitle: string;
     userId: string;
     projectId?: string;
+    taskId?: string;
 }
 export async function logActivity({
     action,
@@ -13,6 +14,7 @@ export async function logActivity({
     entityTitle,
     userId,
     projectId,
+    taskId,
 }: LogActivityParams        
 ){
     await prisma.activity.create({
@@ -22,6 +24,7 @@ export async function logActivity({
             entityTitle,
             userId,
             projectId,
+            taskId,
         },
     });
 }

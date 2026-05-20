@@ -1,23 +1,35 @@
 "use server";
 
+import { logActivity } from "@/lib/activity";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export async function updateTaskLabels(
   taskId: string,
   labels: string[],
-  projectId: string
+  projectId: string,
 ) {
-  await prisma.task.update({
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw new Error("Unauthorized");
+  }
+  const task = await prisma.task.update({
     where: {
       id: taskId,
-    },
+    }, 
     data: {
       labels,
     },
   });
+  await logActivity({
+    action: "Updated labels",
+    entityType: "task",
+    entityTitle: task.title,
+    userId: session!.user!.id,
+    projectId: task.projectId,
+    taskId,
+  });
 
-  revalidatePath(
-    `/projects/${projectId}/tasks/${taskId}`
-  );
+  revalidatePath(`/projects/${projectId}/tasks/${taskId}`);
 }

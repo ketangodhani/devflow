@@ -36,11 +36,12 @@ export async function createComment({
   });
 
   await logActivity({
-    action: "commented on",
+    action: "Added a comment",
     entityType: "task",
     entityTitle: "a task",
     userId: session.user.id,
     projectId,
+    taskId,
   });
 
   revalidatePath(

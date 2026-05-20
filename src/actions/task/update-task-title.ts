@@ -2,15 +2,21 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { logActivity } from "@/lib/activity";
+import { auth } from "@/lib/auth";
 
 export async function updateTaskTitle(
   taskId: string,
   title: string,
-  projectId: string
+  projectId: string,
 ) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw new Error("Unauthorized");
+  }
   if (!title.trim()) return;
 
-  await prisma.task.update({
+  const task = await prisma.task.update({
     where: {
       id: taskId,
     },
@@ -18,8 +24,14 @@ export async function updateTaskTitle(
       title,
     },
   });
+  await logActivity({
+    action: "Updated title",
+    entityType: "task",
+    entityTitle: task.title,
+    userId: session!.user!.id,
+    projectId: task.projectId,
+    taskId,
+  });
 
-  revalidatePath(
-    `/projects/${projectId}/tasks/${taskId}`
-  );
+  revalidatePath(`/projects/${projectId}/tasks/${taskId}`);
 }

@@ -21,6 +21,9 @@ export default async function TaskPage({ params }: Props) {
     include: {
       project: true,
       activities: {
+        where: {
+          taskId: taskId
+        },
         orderBy: {
           createdAt: "desc",
         },
