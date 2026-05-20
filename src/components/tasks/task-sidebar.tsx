@@ -3,6 +3,7 @@ import TaskDeleteButton from "./task-delete-button";
 import TaskStatusSelect from "./task-select-status";
 import TaskPrioritySelect from "./task-priority-select";
 import TaskLabels from "./task-labels";
+import TaskDueDatePicker from "./task-due-date-picker";
 
 interface Props {
   task: any;
@@ -14,6 +15,11 @@ export default function TaskSidebar({ task }: Props) {
       <TaskLabels
         taskId={task.id}
         initialLabels={task.labels}
+        projectId={task.projectId}
+      />
+      <TaskDueDatePicker
+        taskId={task.id}
+        dueDate={task.dueDate}
         projectId={task.projectId}
       />
       <TaskStatusSelect
