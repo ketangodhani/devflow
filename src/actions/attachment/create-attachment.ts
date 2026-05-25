@@ -7,6 +7,7 @@ import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 import { logActivity } from "@/lib/activity";
+import { notify } from "@/lib/notify";
 
 interface Props {
   taskId: string;
@@ -30,7 +31,7 @@ export async function createAttachment({
     throw new Error("Unauthorized");
   }
 
- const attachment = await prisma.attachment.create({
+  const attachment = await prisma.attachment.create({
     data: {
       name,
       url,
@@ -40,6 +41,26 @@ export async function createAttachment({
       uploadedById: session.user.id,
     },
   });
+  const task = await prisma.task.findUnique({
+    where: {
+      id: taskId,
+    },
+
+    select: {
+      id: true,
+      assigneeId: true,
+    },
+  });
+
+  if (task?.assigneeId) {
+    await notify({
+      userId: task.assigneeId,
+
+      title: "New attachment added",
+
+      link: `/projects/${projectId}/tasks/${task.id}`,
+    });
+  }
   await logActivity({
     action: "Uploaded attachment",
     entityType: "task",
@@ -48,7 +69,7 @@ export async function createAttachment({
     projectId,
     taskId,
   });
-  
+
   revalidatePath(`/projects/${projectId}/tasks/${taskId}`);
   return attachment;
 }

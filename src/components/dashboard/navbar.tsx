@@ -4,6 +4,7 @@ import { Menu, Search } from "lucide-react";
 import { ThemeToggle } from "../shared/theme-toggle";
 import { UserDropdown } from "./user-dropdown";
 import { CommandMenu } from "./command-menu";
+import NotificationBell from "../notifications/notification-bell";
 
 interface NavbarProps {
   projects?: {
@@ -20,6 +21,7 @@ export function Navbar({ projects }: NavbarProps) {
       </div>
 
       <div className="flex items-center gap-4">
+        <NotificationBell />
         <ThemeToggle />
         <UserDropdown />
       </div>

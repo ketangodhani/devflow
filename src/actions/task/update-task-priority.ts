@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { logActivity } from "@/lib/activity";
 import { formatPriority } from "@/lib/formatter";
 import { TaskPriority } from "@prisma/client";
+import { notify } from "@/lib/notify";
 
 export async function updateTaskPriority(
   taskId: string,
@@ -24,6 +25,15 @@ export async function updateTaskPriority(
       priority,
     },
   });
+  if (task.assigneeId) {
+    await notify({
+      userId: task.assigneeId,
+
+      title: `Priority changed to ${priority}`,
+
+      link: `/projects/${projectId}/tasks/${task.id}`,
+    });
+  }
   await logActivity({
     action: `Changed priority to ${formatPriority(priority)}`,
     entityType: "task",

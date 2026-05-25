@@ -7,6 +7,7 @@ import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 import { logActivity } from "@/lib/activity";
+import { notify } from "@/lib/notify";
 
 interface Props {
   taskId: string;
@@ -14,11 +15,7 @@ interface Props {
   projectId: string;
 }
 
-export async function createComment({
-  taskId,
-  content,
-  projectId,
-}: Props) {
+export async function createComment({ taskId, content, projectId }: Props) {
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -35,6 +32,22 @@ export async function createComment({
     },
   });
 
+  const task = await prisma.task.findUnique({
+    where: {
+      id: taskId,
+    },
+  });
+
+  if (task?.assigneeId) {
+    await notify({
+      userId: task.assigneeId,
+
+      title: "New comment on your task",
+
+      link: `/projects/${projectId}/tasks/${task.id}`,
+    });
+  }
+
   await logActivity({
     action: "Added a comment",
     entityType: "task",
@@ -44,7 +57,5 @@ export async function createComment({
     taskId,
   });
 
-  revalidatePath(
-    `/projects/${projectId}/tasks/${taskId}`
-  );
+  revalidatePath(`/projects/${projectId}/tasks/${taskId}`);
 }

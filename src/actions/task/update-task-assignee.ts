@@ -4,6 +4,7 @@ import { logActivity } from "@/lib/activity";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { notify } from "@/lib/notify";
 
 export async function updateTaskAssignee(
   taskId: string,
@@ -22,6 +23,15 @@ export async function updateTaskAssignee(
       assigneeId,
     },
   });
+  if (assigneeId) {
+    await notify({
+      userId: assigneeId,
+
+      title: "You were assigned a task",
+
+      link: `/projects/${projectId}/tasks/${taskId}`,
+    });
+  }
   await logActivity({
     action: assigneeId ? "Assigned task" : "Unassigned task",
     entityType: "task",

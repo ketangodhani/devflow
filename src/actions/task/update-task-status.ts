@@ -7,6 +7,7 @@ import { TaskStatus } from "@prisma/client";
 import { logActivity } from "@/lib/activity";
 import { auth } from "@/lib/auth";
 import { formatStatus } from "@/lib/formatter";
+import { notify } from "@/lib/notify";
 
 export async function updateTaskStatusAction(
   taskId: string,
@@ -25,6 +26,16 @@ export async function updateTaskStatusAction(
       status,
     },
   });
+
+  if (task.assigneeId) {
+    await notify({
+      userId: task.assigneeId,
+
+      title: `Task moved to ${status}`,
+
+      link: `/projects/${projectId}/tasks/${task.id}`,
+    });
+  }
 
   await logActivity({
     action: `Changed status to ${formatStatus(status)}`,
