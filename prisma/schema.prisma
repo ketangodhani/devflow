@@ -23,6 +23,7 @@ model User {
   projects   Project[]
   activities Activity[]
   comments Comment[]
+  attachments Attachment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -72,6 +73,7 @@ model Task {
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   activities Activity[]
+  attachments Attachment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -148,6 +150,24 @@ model Comment {
 
   userId String
   user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Attachment {
+  id String @id @default(cuid())
+
+  name String
+  url String
+  size Int?
+
+  fileKey String
+
+  taskId String
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  uploadedById String
+  uploadedBy User @relation(fields: [uploadedById], references: [id])
 
   createdAt DateTime @default(now())
 }

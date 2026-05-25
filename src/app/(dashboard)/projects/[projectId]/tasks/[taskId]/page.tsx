@@ -38,6 +38,7 @@ export default async function TaskPage({ params }: Props) {
           createdAt: "desc",
         },
       },
+      attachments: true,
     },
   });
   if (!task) {

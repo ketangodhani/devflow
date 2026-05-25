@@ -5,6 +5,9 @@ import TaskActivity from "./task-activity";
 import TaskSidebar from "./task-sidebar";
 import CommentList from "../comments/comment-list";
 import CommentForm from "../comments/comment-form";
+import TaskAttachmentUpload from "../attachments/task-attachment-upload";
+import AttachmentList from "../attachments/attachment-list";
+import TaskAttachmentsSection from "../attachments/task-attachment-section";
 
 interface Props {
   task: any;
@@ -32,6 +35,15 @@ export default function TaskDetailsContent({ task, users }: Props) {
           </div>
 
           <CommentForm taskId={task.id} projectId={task.projectId} />
+          <div className="mt-10 space-y-6">
+            <TaskAttachmentsSection
+              taskId={task.id}
+              projectId={task.projectId}
+              initialAttachments={task.attachments}
+            />
+
+            {/* <AttachmentList attachments={task.attachments} onDelete={() => {}} /> */}
+          </div>
 
           <CommentList comments={task.comments} />
         </div>
