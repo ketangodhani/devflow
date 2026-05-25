@@ -34,7 +34,7 @@ export default function TaskDetailsContent({ task, users }: Props) {
             </p>
           </div>
 
-          <CommentForm taskId={task.id} projectId={task.projectId} />
+          <CommentForm taskId={task.id} projectId={task.projectId} users={users} />
           <div className="mt-10 space-y-6">
             <TaskAttachmentsSection
               taskId={task.id}
