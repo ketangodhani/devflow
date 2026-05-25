@@ -9,6 +9,7 @@ import { UploadCloud } from "lucide-react";
 import { createAttachment } from "@/actions/attachment/create-attachment";
 
 import { generateReactHelpers } from "@uploadthing/react";
+import { useDropzone } from "react-dropzone";
 
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
 
@@ -20,7 +21,11 @@ interface Props {
   onUploaded: (attachment: any) => void;
 }
 
-export default function TaskAttachmentUpload({ taskId, projectId, onUploaded }: Props) {
+export default function TaskAttachmentUpload({
+  taskId,
+  projectId,
+  onUploaded,
+}: Props) {
   const [file, setFile] = useState<File | null>(null);
 
   const [uploading, setUploading] = useState(false);
@@ -28,6 +33,18 @@ export default function TaskAttachmentUpload({ taskId, projectId, onUploaded }: 
   const { startUpload } = useUploadThing("taskAttachment");
 
   const router = useRouter();
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    multiple: false,
+
+    onDrop: (acceptedFiles) => {
+      const selected = acceptedFiles[0];
+
+      if (selected) {
+        setFile(selected);
+      }
+    },
+  });
 
   async function handleUpload() {
     if (!file) return;
@@ -64,23 +81,24 @@ export default function TaskAttachmentUpload({ taskId, projectId, onUploaded }: 
 
   return (
     <div className="w-fit">
-      <label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-700 bg-zinc-900/50 p-8 transition hover:border-zinc-500">
+      <div
+        {...getRootProps()}
+        className={`flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed p-8 transition ${
+          isDragActive
+            ? "border-blue-500 bg-blue-500/10"
+            : "border-zinc-700 bg-zinc-900/50 hover:border-zinc-500"
+        }`}
+      >
         <UploadCloud className="mb-3 h-6 w-8 text-zinc-500" />
+        <p className="text-sm text-white">
+          Drag & drop files here
+        </p>
 
-        <p className="text-sm text-zinc-400">Click to select file</p>
-
-        <input
-          type="file"
-          className="hidden"
-          onChange={(e) => {
-            const selected = e.target.files?.[0];
-
-            if (selected) {
-              setFile(selected);
-            }
-          }}
-        />
-      </label>
+        <p className="mt-1 text-xs text-zinc-500">
+          or click to browse
+        </p>
+        <input {...getInputProps()} />
+      </div>
 
       {file && (
         <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 mt-2">

@@ -1,12 +1,10 @@
-import { formatDistanceToNow } from "date-fns";
+
 import TaskHeader from "./task-header";
 import TaskDescription from "./task-description";
 import TaskActivity from "./task-activity";
 import TaskSidebar from "./task-sidebar";
 import CommentList from "../comments/comment-list";
 import CommentForm from "../comments/comment-form";
-import TaskAttachmentUpload from "../attachments/task-attachment-upload";
-import AttachmentList from "../attachments/attachment-list";
 import TaskAttachmentsSection from "../attachments/task-attachment-section";
 
 interface Props {
