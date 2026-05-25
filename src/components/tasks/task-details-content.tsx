@@ -28,7 +28,7 @@ export default function TaskDetailsContent({ task, users }: Props) {
         <div className="mt-10 space-y-6">
           <div>
             <h2 className="text-xl font-semibold text-white">Comments</h2>
-
+ 
             <p className="mt-1 text-sm text-zinc-500">
               Collaborate with your team.
             </p>
@@ -45,7 +45,7 @@ export default function TaskDetailsContent({ task, users }: Props) {
             {/* <AttachmentList attachments={task.attachments} onDelete={() => {}} /> */}
           </div>
 
-          <CommentList comments={task.comments} />
+          <CommentList comments={task.comments} projectId={task.projectId} taskId={task.id} />
         </div>
 
         <TaskActivity activities={task.activities} />

@@ -1,4 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
+import CommentCard from "./comment-card";
 
 interface Comment {
   id: string;
@@ -14,14 +15,22 @@ interface Comment {
 
 interface Props {
   comments: Comment[];
+  projectId: string;
+  taskId: string;
 }
 
-export default function CommentList({
-  comments,
-}: Props) {
+export default function CommentList({ comments, projectId, taskId }: Props) {
   return (
     <div className="space-y-4">
       {comments.map((comment) => (
+        <CommentCard
+          key={comment.id}
+          comment={comment}
+          projectId={projectId}
+          taskId={taskId}
+        />
+      ))}
+      {/* {comments.map((comment) => (
         <div
           key={comment.id}
           className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4"
@@ -46,7 +55,7 @@ export default function CommentList({
             {comment.content}
           </p>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 }
