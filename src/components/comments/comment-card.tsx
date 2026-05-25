@@ -7,6 +7,7 @@ import { Pencil, Trash2, Loader2, Check, X } from "lucide-react";
 import { deleteComment } from "@/actions/comment/delete-comment";
 
 import { updateComment } from "@/actions/comment/update-comment";
+import { renderCommentContent } from "@/lib/render-comment-content";
 
 interface Comment {
   id: string;
@@ -121,7 +122,7 @@ export default function CommentCard({ comment, projectId, taskId }: Props) {
         </div>
       ) : (
         <p className="mt-4 whitespace-pre-wrap text-sm text-zinc-300">
-          {comment.content}
+          {renderCommentContent(comment.content)}
         </p>
       )}
     </div>
