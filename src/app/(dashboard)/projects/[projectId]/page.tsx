@@ -8,7 +8,7 @@ import { ActivityFeed } from "@/components/activity/activity-feed";
 
 import { CreateTaskForm } from "@/components/tasks/create-task-form";
 
-import {KanbanBoard} from "@/components/tasks/kanban-board";
+import { KanbanBoard } from "@/components/tasks/kanban-board";
 
 interface ProjectPageProps {
   params: {
@@ -16,15 +16,13 @@ interface ProjectPageProps {
   };
 }
 
-export default async function ProjectPage({
-  params,
-}: ProjectPageProps) {
+export default async function ProjectPage({ params }: ProjectPageProps) {
   const session = await auth();
 
   if (!session?.user?.id) {
     redirect("/login");
   }
-  const {projectId}= await params;
+  const { projectId } = await params;
   const project = await prisma.project.findUnique({
     where: {
       id: projectId,
@@ -48,25 +46,17 @@ export default async function ProjectPage({
   }
 
   return (
-    <div className="space-y-8">
-
+    <div className="space-y-8 ">
       <div>
-        <h1 className="text-4xl font-bold text-white">
-          {project.title}
-        </h1>
+        <h1 className="text-4xl font-bold text-white">{project.title}</h1>
 
-        <p className="mt-2 text-zinc-400">
-          {project.description}
-        </p>
+        <p className="mt-2 text-zinc-400">{project.description}</p>
       </div>
 
-      <CreateTaskForm
-        projectId={project.id}
-      />
+      <CreateTaskForm projectId={project.id} />
 
       <KanbanBoard tasks={project.tasks} />
       <ActivityFeed activities={project.activities} />
-
     </div>
   );
 }

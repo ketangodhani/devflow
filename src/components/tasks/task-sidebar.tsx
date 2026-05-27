@@ -17,7 +17,7 @@ interface Props {
 
 export default function TaskSidebar({ task, users }: Props) {
   return (
-    <div className="space-y-6 rounded-2xl border border-zinc-800 bg-zinc-950 p-6 h-fit sticky top-6 overflow-visible">
+    <div className="space-y-6 rounded-2xl border border-zinc-800 bg-zinc-950 p-6 h-fit sticky top-24 overflow-visible">
       <TaskLabels
         taskId={task.id}
         initialLabels={task.labels}

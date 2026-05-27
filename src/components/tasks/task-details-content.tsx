@@ -18,7 +18,7 @@ interface Props {
 
 export default function TaskDetailsContent({ task, users }: Props) {
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
+    <div className="grid min-h-screen gap-8 lg:grid-cols-[1fr_320px]">
       <div className="space-y-8">
         <TaskHeader task={task} />
 

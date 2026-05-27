@@ -34,13 +34,13 @@ export default async function ProjectsLayout({
     },
   });
   return (
-    <div className="flex h-screen overflow-hidden bg-black">
+    <div className="flex min-h-screen bg-black">
       <Sidebar />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col">
         <Navbar projects={projects} />
 
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 p-6">
           <>
             {children}
           </>

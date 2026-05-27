@@ -53,7 +53,7 @@ export default async function TaskPage({ params }: Props) {
   });
 
   return (
-    <div className="p-6">
+    <div className="px-6">
       <TaskDetailsContent task={task} users={users} />
     </div>
   );
