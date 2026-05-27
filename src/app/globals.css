@@ -10,25 +10,25 @@ body,
 }
 
 @theme {
-  /* Main app background */
+  /* Main app background, bg-black*/
   --color-background: #ffffff;
 
-  /* Main text color */
+  /* Main text color, text-white */
   --color-foreground: #09090b;
 
-  /* Cards, modals, panels */
+  /* Cards, modals, panels, bg-zinc-900 */
   --color-card: #ffffff;
 
-  /* Text inside cards */
+  /* Text inside cards, text-zinc-300 */
   --color-card-foreground: #09090b;
 
   /* Borders everywhere */
   --color-border: #e4e4e7;
 
-  /* Soft secondary backgrounds */
+  /* Soft secondary backgrounds, bg-zinc-900 */
   --color-muted: #f4f4f5;
 
-  /* Secondary/helper text */
+  /* Secondary/helper text, bg-zinc-500/400 */
   --color-muted-foreground: #71717a;
 }
 

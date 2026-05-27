@@ -103,7 +103,7 @@ export default function CommentCard({ comment, projectId, taskId }: Props) {
             <button
               onClick={handleUpdate}
               disabled={pending}
-              className="rounded-lg bg-white px-3 py-2 text-sm font-medium text-black transition hover:bg-zinc-200"
+              className="rounded-lg bg-foreground px-3 py-2 text-sm font-medium text-background cursor-pointer transition hover:bg-zinc-200"
             >
               <Check className="h-4 w-4" />
             </button>
@@ -114,7 +114,7 @@ export default function CommentCard({ comment, projectId, taskId }: Props) {
 
                 setContent(comment.content);
               }}
-              className="rounded-lg border border-zinc-700 px-3 py-2 text-sm text-foreground transition hover:bg-zinc-800"
+              className="rounded-lg border border-border px-3 py-2 text-sm text-foreground transition hover:bg-muted hover:text-foreground"
             >
               <X className="h-4 w-4" />
             </button>

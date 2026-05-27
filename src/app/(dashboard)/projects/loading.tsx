@@ -5,7 +5,7 @@ export default function LoadingProjectsPage() {
       {Array.from({ length: 6 }).map((_, i) => (
         <div
           key={i}
-          className="h-40 animate-pulse rounded-3xl bg-zinc-900"
+          className="h-40 animate-pulse rounded-3xl bg-card"
         />
       ))}
 

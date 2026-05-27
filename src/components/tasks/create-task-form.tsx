@@ -30,7 +30,7 @@ export function CreateTaskForm({ projectId }: createTaskFormProps) {
       />
       <button
         disabled={loading}
-        className="rounded-xl bg-white px-6 py-3 font-medium text-black"
+        className="rounded-xl bg-foreground px-6 py-3 font-medium text-background cursor-pointer"
       >
         {loading ? "Creating..." : "Create Task"}
       </button>
