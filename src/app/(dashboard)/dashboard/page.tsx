@@ -12,7 +12,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-4xl font-bold text-white">Dashboard</h1>
+        <h1 className="text-4xl font-bold text-foreground">Dashboard</h1>
 
         <p className="mt-2 text-zinc-400">Welcome back to DevFlow</p>
       </div>
@@ -28,12 +28,12 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-3">
-        <div className="rounded-3xl border border-zinc-800 bg-zinc-950 p-6 xl:col-span-2">
-          <h2 className="text-xl font-semibold text-white">Recent Activity</h2>
+        <div className="rounded-3xl border border-border bg-card p-6 xl:col-span-2">
+          <h2 className="text-xl font-semibold text-foreground">Recent Activity</h2>
         </div>
 
-        <div className="rounded-3xl border border-zinc-800 bg-zinc-950 p-6">
-          <h2 className="text-xl font-semibold text-white">Quick Stats</h2>
+        <div className="rounded-3xl border border-border bg-card p-6">
+          <h2 className="text-xl font-semibold text-foreground">Quick Stats</h2>
         </div>
       </div>
     </div>

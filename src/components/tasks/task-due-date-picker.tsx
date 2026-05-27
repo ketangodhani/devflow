@@ -54,7 +54,7 @@ export default function TaskDueDatePicker({
 
   return (
     <div className="space-y-2">
-      <p className="text-sm text-zinc-500">
+      <p className="text-sm text-muted-foreground">
         Due Date
       </p>
 
@@ -63,7 +63,7 @@ export default function TaskDueDatePicker({
           <PopoverTrigger >
             <Button
               variant="outline"
-              className="w-full justify-start border-zinc-800 bg-zinc-900 text-left text-white hover:bg-zinc-800"
+              className="w-full justify-start border-border bg-card text-left text-foreground hover:bg-zinc-800"
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
 
@@ -73,7 +73,7 @@ export default function TaskDueDatePicker({
             </Button>
           </PopoverTrigger>
 
-          <PopoverContent className="w-auto border-zinc-800 bg-zinc-950 p-0">
+          <PopoverContent className="w-auto border-border bg-card p-0">
             <Calendar
               mode="single"
               selected={dueDate || undefined}
@@ -85,7 +85,7 @@ export default function TaskDueDatePicker({
         {dueDate && (
           <button
             onClick={clearDate}
-            className="rounded-lg border border-zinc-800 bg-zinc-900 p-2 text-zinc-400 hover:bg-zinc-800"
+            className="rounded-lg border border-border bg-muted p-2 text-muted-foreground hover:bg-zinc-800"
           >
             <X size={16} />
           </button>
@@ -93,7 +93,7 @@ export default function TaskDueDatePicker({
       </div>
 
       {pending && (
-        <p className="text-xs text-zinc-500">
+        <p className="text-xs text-muted-foreground">
           Updating...
         </p>
       )}

@@ -42,7 +42,7 @@ export default function TaskStatusSelect({
 
   return (
     <div className="space-y-2">
-      <p className="text-sm text-zinc-500">
+      <p className="text-sm text-muted-foreground">
         Status
       </p>
 
@@ -50,11 +50,11 @@ export default function TaskStatusSelect({
         defaultValue={currentStatus}
         onValueChange={handleChange}
       >
-        <SelectTrigger className="w-full border-zinc-800 bg-zinc-900 text-white">
+        <SelectTrigger className="w-full border-border bg-card text-foreground">
           <SelectValue />
         </SelectTrigger>
 
-        <SelectContent className="border-zinc-800 bg-zinc-950 text-white">
+        <SelectContent className="border-border bg-card text-foreground">
           <SelectItem value="TODO">
             Todo
           </SelectItem>
@@ -70,7 +70,7 @@ export default function TaskStatusSelect({
       </Select>
 
       {pending && (
-        <p className="text-xs text-zinc-500">
+        <p className="text-xs text-muted-foreground">
           Updating...
         </p>
       )}

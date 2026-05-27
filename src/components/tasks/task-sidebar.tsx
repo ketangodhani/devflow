@@ -17,7 +17,7 @@ interface Props {
 
 export default function TaskSidebar({ task, users }: Props) {
   return (
-    <div className="space-y-6 rounded-2xl border border-zinc-800 bg-zinc-950 p-6 h-fit sticky top-24 overflow-visible">
+    <div className="space-y-6 rounded-2xl border border-border bg-card p-6 h-fit sticky top-24 overflow-visible">
       <TaskLabels
         taskId={task.id}
         initialLabels={task.labels}
@@ -47,14 +47,14 @@ export default function TaskSidebar({ task, users }: Props) {
       <div>
         <p className="text-sm text-zinc-500">Created</p>
 
-        <p className="mt-2 text-white">
+        <p className="mt-2 text-foreground">
           {format(new Date(task.createdAt), "PPP")}
         </p>
       </div>{" "}
       <div>
         <p className="text-sm text-zinc-500">Updated</p>
 
-        <p className="mt-2 text-white">
+        <p className="mt-2 text-foreground">
           {format(new Date(task.updatedAt), "PPP")}
         </p>
       </div>

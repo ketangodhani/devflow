@@ -6,8 +6,8 @@ interface Props {
 
 export default function TaskDescription({ task }: Props) {
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
-      <h2 className="mb-4 text-lg font-semibold text-white">Description</h2>
+    <div className="rounded-2xl border border-border bg-card p-6">
+      <h2 className="mb-4 text-lg font-semibold text-foreground">Description</h2>
       <EditableTaskDescription
         taskId={task.id}
         initialDescription={task.description}

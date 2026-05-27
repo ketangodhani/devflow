@@ -15,11 +15,11 @@ export function CreateProjectForm() {
           createProject(formData)
         )
       }
-      className="space-y-4 rounded-3xl border border-zinc-800 bg-zinc-950 p-6"
+      className="space-y-4 rounded-3xl border border-border bg-card p-6"
     >
 
       <div>
-        <h2 className="text-2xl font-bold text-white">
+        <h2 className="text-2xl font-bold text-foreground">
           Create Project
         </h2>
 
@@ -31,18 +31,18 @@ export function CreateProjectForm() {
       <input
         name="title"
         placeholder="Project title"
-        className="w-full rounded-xl border border-zinc-800 bg-black p-4 text-white outline-none"
+        className="w-full rounded-xl border border-border bg-background p-4 text-foreground outline-none"
       />
 
       <textarea
         name="description"
         placeholder="Description"
-        className="min-h-30 w-full rounded-xl border border-zinc-800 bg-black p-4 text-white outline-none"
+        className="min-h-30 w-full rounded-xl border border-border bg-background p-4 text-foreground outline-none"
       />
 
       <button
         disabled={loading}
-        className="rounded-xl bg-white px-6 py-3 font-medium text-black"
+        className="rounded-xl bg-foreground px-6 py-3 font-medium text-background cursor-pointer"
       >
         {loading ? "Creating..." : "Create Project"}
       </button>

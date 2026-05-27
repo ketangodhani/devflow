@@ -8,13 +8,13 @@ export function DashboardCard({
   value,
 }: DashboardCardProps) {
   return (
-    <div className="rounded-3xl border border-zinc-800 bg-zinc-950 p-6">
+    <div className="rounded-3xl border border-border bg-card p-6">
 
       <p className="text-zinc-400">
         {title}
       </p>
 
-      <h2 className="mt-4 text-4xl font-bold text-white">
+      <h2 className="mt-4 text-4xl font-bold text-foreground">
         {value}
       </h2>
 

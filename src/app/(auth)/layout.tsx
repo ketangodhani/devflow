@@ -8,7 +8,7 @@ export default function AuthLayout({
 
       {/* LEFT SIDE */}
 
-      <div className="hidden flex-col justify-between bg-zinc-950 p-10 text-white lg:flex">
+      <div className="hidden flex-col justify-between bg-card p-10 text-foreground lg:flex">
 
         <div>
           <h1 className="text-3xl font-bold">
@@ -31,7 +31,7 @@ export default function AuthLayout({
 
       {/* RIGHT SIDE */}
 
-      <div className="flex items-center justify-center bg-black p-6">
+      <div className="flex items-center justify-center bg-background p-6">
         {children}
       </div>
 

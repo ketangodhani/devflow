@@ -58,10 +58,10 @@ export default function CommentCard({ comment, projectId, taskId }: Props) {
   }
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+    <div className="rounded-2xl border border-border bg-card p-4">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="font-medium text-white">
+          <p className="font-medium text-foreground">
             {comment.user.name || comment.user.email}
           </p>
 
@@ -73,7 +73,7 @@ export default function CommentCard({ comment, projectId, taskId }: Props) {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setEditing(!editing)}
-            className="text-zinc-500 transition hover:text-white"
+            className="text-zinc-500 transition hover:text-foreground"
           >
             <Pencil className="h-4 w-4" />
           </button>
@@ -96,7 +96,7 @@ export default function CommentCard({ comment, projectId, taskId }: Props) {
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="min-h-25 w-full rounded-xl border border-zinc-800 bg-black p-3 text-sm text-white outline-none"
+            className="min-h-25 w-full rounded-xl border border-border bg-background p-3 text-sm text-foreground outline-none"
           />
 
           <div className="flex items-center gap-2">
@@ -114,14 +114,14 @@ export default function CommentCard({ comment, projectId, taskId }: Props) {
 
                 setContent(comment.content);
               }}
-              className="rounded-lg border border-zinc-700 px-3 py-2 text-sm text-white transition hover:bg-zinc-800"
+              className="rounded-lg border border-zinc-700 px-3 py-2 text-sm text-foreground transition hover:bg-zinc-800"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
         </div>
       ) : (
-        <p className="mt-4 whitespace-pre-wrap text-sm text-zinc-300">
+        <p className="mt-4 whitespace-pre-wrap text-sm text-foreground">
           {renderCommentContent(comment.content)}
         </p>
       )}

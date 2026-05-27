@@ -27,10 +27,10 @@ export function ThemeToggle() {
       onClick={() =>
         setTheme(theme === "dark" ? "light" : "dark")
       }
-      className="rounded-xl border border-zinc-800 p-2 transition hover:bg-zinc-900"
+      className="rounded-xl border border-border p-2 transition hover:bg-zinc-900"
     >
       {theme === "dark" ? (
-        <Sun className="h-5 w-5 text-white" />
+        <Sun className="h-5 w-5 text-foreground" />
       ) : (
         <Moon className="h-5 w-5 text-black" />
       )}

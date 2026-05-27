@@ -12,10 +12,10 @@ export function ProjectCard({ id, title, description }: ProjectCardProps) {
     <Link
       href={`/projects/${id}`}
     >
-      <div className="rounded-3xl border border-zinc-800 bg-zinc-950 p-6 transition hover:border-zinc-700">
-        <h2 className="text-xl font-semibold text-white">{title}</h2>
+      <div className="rounded-3xl border border-border bg-card p-6 transition hover:border-zinc-700">
+        <h2 className="text-xl font-semibold text-foreground">{title}</h2>
 
-        <p className="mt-3 text-zinc-400">{description}</p>
+        <p className="mt-3 text-muted-foreground">{description}</p>
       </div>
     </Link>
   );

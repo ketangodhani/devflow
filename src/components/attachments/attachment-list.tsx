@@ -57,12 +57,12 @@ export default function AttachmentList({
         return (
           <div
             key={attachment.id}
-            className="flex w-full items-center justify-between rounded-2xl border border-zinc-800 bg-zinc-900 p-4"
+            className="flex w-full items-center justify-between rounded-2xl border border-border bg-zinc-900 p-4"
           >
             <a
               href={attachment.url}
               target="_blank"
-              className="text-sm text-white hover:underline"
+              className="text-sm text-foreground hover:underline"
             >
               {attachment.name}
             </a>

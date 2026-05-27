@@ -52,12 +52,12 @@ export default function EditableTaskTitle({
               setIsEditing(false);
             }
           }}
-          className="w-full border-none bg-transparent text-4xl font-bold tracking-tight text-white outline-none"
+          className="w-full border-none bg-transparent text-4xl font-bold tracking-tight text-foreground outline-none"
         />
       ) : (
         <h1
           onClick={() => setIsEditing(true)}
-          className="cursor-pointer text-4xl font-bold tracking-tight text-white"
+          className="cursor-pointer text-4xl font-bold tracking-tight text-foreground"
         >
           {pending ? "Saving..." : title}
         </h1>

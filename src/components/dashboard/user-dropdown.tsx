@@ -21,7 +21,7 @@ export function UserDropdown() {
 
       <DropdownMenuContent
         align="end"
-        className="border-zinc-800 bg-zinc-950 text-white"
+        className="border-border bg-card text-foreground"
       >
         <DropdownMenuItem
           onClick={() => signOut()}

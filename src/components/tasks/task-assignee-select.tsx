@@ -47,13 +47,13 @@ export default function TaskAssigneeSelect({
 
   return (
     <div className="space-y-2">
-      <p className="text-sm text-zinc-500">Assignee</p>
+      <p className="text-sm text-muted-foreground">Assignee</p>
 
       <Select
         defaultValue={currentAssigneeId || "unassigned"}
         onValueChange={handleChange}
       >
-        <SelectTrigger className="w-full border-zinc-800 bg-zinc-900 text-white">
+        <SelectTrigger className="w-full border-border bg-card text-foreground">
           <SelectValue>
             {selectedUser
               ? selectedUser.name || selectedUser.email
@@ -61,7 +61,7 @@ export default function TaskAssigneeSelect({
           </SelectValue>
         </SelectTrigger>
 
-        <SelectContent className="border-zinc-800 bg-zinc-950 text-white">
+        <SelectContent className="border-border bg-card text-foreground">
           <SelectItem value="unassigned">Unassigned</SelectItem>
 
           {users.map((user) => (
@@ -72,7 +72,7 @@ export default function TaskAssigneeSelect({
         </SelectContent>
       </Select>
 
-      {pending && <p className="text-xs text-zinc-500">Updating...</p>}
+      {pending && <p className="text-xs text-muted-foreground">Updating...</p>}
     </div>
   );
 }

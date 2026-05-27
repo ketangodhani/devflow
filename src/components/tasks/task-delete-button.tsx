@@ -15,7 +15,7 @@ export default function TaskDeleteButton({ taskId, projectId }: Props) {
   const [pending, startTransition] = useTransition();
   async function handleDelete() {
     const confirmed = confirm(
-      "Are you sure you want to delete this task? This action cannot be undone."
+      "Are you sure you want to delete this task? This action cannot be undone.",
     );
     if (!confirmed) {
       return;
@@ -30,9 +30,10 @@ export default function TaskDeleteButton({ taskId, projectId }: Props) {
     <button
       onClick={handleDelete}
       disabled={pending}
-      className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-400 transition hover:bg-red-500/20"
+      className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-500 transition hover:bg-red-500/20 disabled:opacity-50"
     >
       <Trash2 size={16} />
+
       {pending ? "Deleting..." : "Delete Task"}
     </button>
   );

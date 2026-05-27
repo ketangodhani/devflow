@@ -48,7 +48,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <div className="space-y-8 ">
       <div>
-        <h1 className="text-4xl font-bold text-white">{project.title}</h1>
+        <h1 className="text-4xl font-bold text-foreground">{project.title}</h1>
 
         <p className="mt-2 text-zinc-400">{project.description}</p>
       </div>

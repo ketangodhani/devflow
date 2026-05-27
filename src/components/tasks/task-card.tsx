@@ -42,14 +42,14 @@ export function TaskCard({
       }}
       ref={setNodeRef}
       style={style}
-      className="rounded-2xl border border-zinc-800 bg-black p-4"
+      className="rounded-2xl border border-border bg-background p-4"
     >
       <div className="flex items-start justify-between gap-3">
         <div
           onClick={() => router.push(`/projects/${projectId}/tasks/${id}`)}
           className="flex-1 cursor-pointer"
         >
-          <h3 className="font-semibold text-white">{title}</h3>
+          <h3 className="font-semibold text-foreground">{title}</h3>
           <div className="mt-2 flex items-center gap-2">
             <span
               className={`

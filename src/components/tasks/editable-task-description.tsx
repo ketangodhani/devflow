@@ -52,12 +52,12 @@ export default function EditableTaskDescription({
               setIsEditing(false);
             }
           }}
-          className="w-full border-none bg-transparent text-md font-bold tracking-tight text-white outline-none"
+          className="w-full border-none bg-transparent text-md font-bold tracking-tight text-foreground outline-none"
         />
       ) : (
         <p
           onClick={() => setIsEditing(true)}
-          className="cursor-pointer text-md font-bold tracking-tight text-white"
+          className="cursor-pointer text-md font-bold tracking-tight text-foreground"
         >
           {pending ? "Saving..." : description || "Click to add description..."}
         </p>

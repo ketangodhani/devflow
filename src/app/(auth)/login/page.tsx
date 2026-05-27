@@ -45,10 +45,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="w-full max-w-md rounded-3xl border border-zinc-800 bg-zinc-950/50 p-8 backdrop-blur">
+    <div className="w-full max-w-md rounded-3xl border border-border bg-card/50 p-8 backdrop-blur">
 
       <div className="mb-8 space-y-2">
-        <h1 className="text-4xl font-bold text-white">
+        <h1 className="text-4xl font-bold text-foreground">
           Welcome back
         </h1>
 
@@ -64,7 +64,7 @@ export default function LoginPage() {
         <input
           type="email"
           placeholder="Email"
-          className="w-full rounded-xl border border-zinc-800 bg-black p-4 text-white outline-none transition focus:border-zinc-600"
+          className="w-full rounded-xl border border-border bg-background p-4 text-foreground outline-none transition focus:border-zinc-600"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -72,7 +72,7 @@ export default function LoginPage() {
         <input
           type="password"
           placeholder="Password"
-          className="w-full rounded-xl border border-zinc-800 bg-black p-4 text-white outline-none transition focus:border-zinc-600"
+          className="w-full rounded-xl border border-border bg-background p-4 text-foreground outline-none transition focus:border-zinc-600"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -93,7 +93,7 @@ export default function LoginPage() {
             callbackUrl: "/dashboard",
           })
         }
-        className="w-full rounded-xl border border-zinc-800 bg-black p-4 text-white transition hover:bg-zinc-900"
+        className="w-full rounded-xl border border-border bg-background p-4 text-foreground transition hover:bg-zinc-900"
       >
         Continue with GitHub
       </button>

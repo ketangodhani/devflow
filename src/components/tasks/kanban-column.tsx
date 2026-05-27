@@ -25,9 +25,9 @@ export function KanbanColumn({ title, status, tasks }: KanbanColumnProps) {
   return (
     <div
       ref={setNodeRef}
-      className="space-y-4 rounded-3xl border border-zinc-800 bg-zinc-950 p-6 min-h-125"
+      className="space-y-4 rounded-3xl border border-border bg-card p-6 min-h-125"
     >
-      <h2 className="text-xl font-semibold text-white">{title}</h2>
+      <h2 className="text-xl font-semibold text-foreground">{title}</h2>
       {tasks.map((task) => (
         <TaskCard
           key={task.id}

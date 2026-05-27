@@ -44,19 +44,19 @@ export default function NotificationBell() {
   return (
     <div className="relative z-50">
       <button onClick={() => setOpen(!open)} className="relative">
-        <Bell className="h-5 w-5 text-white" />
+        <Bell className="h-5 w-5 text-foreground" />
 
         {unreadCount > 0 && (
-          <div className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
+          <div className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-foreground">
             {unreadCount}
           </div>
         )}
       </button>
 
       {open && (
-        <div className="absolute right-0 top-10 w-96 rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl">
+        <div className="absolute right-0 top-10 w-96 rounded-2xl border border-border bg-card p-2 shadow-2xl">
           <div className="mb-2 px-2 py-2">
-            <h2 className="font-semibold text-white">Notifications</h2>
+            <h2 className="font-semibold text-foreground">Notifications</h2>
           </div>
 
           <div className="max-h-100 overflow-y-auto">
@@ -94,7 +94,7 @@ export default function NotificationBell() {
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-sm text-white">{notification.title}</p>
+                      <p className="text-sm text-foreground">{notification.title}</p>
 
                       <p className="mt-1 text-xs text-zinc-500">
                         {new Date(notification.createdAt).toLocaleString()}

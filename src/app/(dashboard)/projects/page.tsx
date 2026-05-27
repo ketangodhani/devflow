@@ -28,7 +28,7 @@ export default async function ProjectsPage() {
   return (
     <div className="space-y-8 ">
       <div>
-        <h1 className="text-4xl font-bold text-white">
+        <h1 className="text-4xl font-bold text-foreground">
           Projects
         </h1>
 
@@ -40,9 +40,9 @@ export default async function ProjectsPage() {
       <CreateProjectForm />
 
       {projects.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-zinc-800 p-12 text-center">
+        <div className="rounded-3xl border border-dashed border-border p-12 text-center">
 
-          <h2 className="text-2xl font-semibold text-white">
+          <h2 className="text-2xl font-semibold text-foreground">
             No projects yet
           </h2>
 

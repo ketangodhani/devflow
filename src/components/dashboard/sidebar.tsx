@@ -11,10 +11,10 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-72 flex-col border-r border-zinc-800 bg-black lg:flex">
+    <aside className="sticky top-0 hidden h-screen w-72 flex-col border-r border-border bg-background lg:flex">
 
-      <div className="border-b border-zinc-800 p-6">
-        <h1 className="text-2xl font-bold text-white">
+      <div className="border-b border-border p-6">
+        <h1 className="text-2xl font-bold text-foreground">
           DevFlow
         </h1>
       </div>
@@ -31,8 +31,8 @@ export function Sidebar() {
               className={clsx(
                 "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition",
                 pathname === link.href
-                  ? "bg-white text-black"
-                  : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                  ? "bg-foreground text-background"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
               <Icon className="h-5 w-5" />

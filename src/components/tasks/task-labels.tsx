@@ -62,7 +62,7 @@ export default function TaskLabels({
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-sm text-zinc-500">
+        <p className="text-sm text-muted-foreground">
           Labels
         </p>
 
@@ -70,7 +70,7 @@ export default function TaskLabels({
           {labels.map((label) => (
             <div
               key={label}
-              className="flex items-center gap-2 rounded-full bg-zinc-800 px-3 py-1 text-sm text-zinc-300"
+              className="flex items-center gap-2 rounded-full bg-muted px-3 py-1 text-sm text-foreground"
             >
               {label}
 
@@ -98,13 +98,13 @@ export default function TaskLabels({
             }
           }}
           placeholder="Add label..."
-          className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white outline-none"
+          className="flex-1 rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none"
         />
 
         <button
           onClick={addLabel}
           disabled={pending}
-          className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-black"
+          className="rounded-xl bg-foreground text-background px-4 py-2 text-sm font-medium transition hover:opacity-90 disabled:opacity-50"
         >
           Add
         </button>

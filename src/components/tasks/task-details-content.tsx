@@ -25,7 +25,7 @@ export default function TaskDetailsContent({ task, users }: Props) {
         <TaskDescription task={task} />
         <div className="mt-10 space-y-6">
           <div>
-            <h2 className="text-xl font-semibold text-white">Comments</h2>
+            <h2 className="text-xl font-semibold text-foreground">Comments</h2>
  
             <p className="mt-1 text-sm text-zinc-500">
               Collaborate with your team.

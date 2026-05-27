@@ -81,11 +81,11 @@ export default function CommentInput({ users, value, onChange }: Props) {
         value={value}
         onChange={handleChange}
         placeholder="Write a comment..."
-        className="min-h-30 w-full rounded-2xl border border-zinc-800 bg-zinc-950 p-4 text-sm text-white outline-none placeholder:text-zinc-500"
+        className="min-h-30 w-full rounded-2xl border border-border bg-card p-4 text-sm text-foreground outline-none placeholder:text-zinc-500"
       />
 
       {open && filteredUsers.length > 0 && (
-        <div className="absolute left-0 top-full z-50 mt-2 w-72 rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl">
+        <div className="absolute left-0 top-full z-50 mt-2 w-72 rounded-2xl border border-border bg-card shadow-2xl">
           {filteredUsers.map((user) => (
             <button
               key={user.id}
@@ -93,12 +93,12 @@ export default function CommentInput({ users, value, onChange }: Props) {
               onClick={() => selectUser(user.name || user.email || "user")}
               className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-zinc-900"
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-800 text-xs text-white">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-800 text-xs text-foreground">
                 {(user.name || user.email || "U").charAt(0).toUpperCase()}
               </div>
 
               <div>
-                <p className="text-sm text-white">{user.name}</p>
+                <p className="text-sm text-foreground">{user.name}</p>
 
                 <p className="text-xs text-zinc-500">{user.email}</p>
               </div>

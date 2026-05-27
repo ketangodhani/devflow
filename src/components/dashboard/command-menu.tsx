@@ -87,18 +87,18 @@ export function CommandMenu({ projects }: CommandMenuProps) {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="hidden w-[320px] items-center justify-between rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-2 text-sm text-zinc-500 md:flex"
+        className="hidden w-[320px] items-center justify-between rounded-xl border border-border bg-card px-4 py-2 text-sm text-zinc-500 md:flex"
       >
         <span>Search anything...</span>
 
-        <kbd className="rounded border border-zinc-700 px-2 py-1 text-xs">
+        <kbd className="rounded border border-border px-2 py-1 text-xs">
           Ctrl K
         </kbd>
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="overflow-hidden border-zinc-800 bg-zinc-950 p-0 text-white">
-          <Command className="bg-zinc-950">
+        <DialogContent className="overflow-hidden border-border bg-card p-0 text-foreground">
+          <Command className="bg-card">
             <CommandInput
               placeholder="Search anything..."
               value={search}
@@ -147,9 +147,6 @@ export function CommandMenu({ projects }: CommandMenuProps) {
                     <CommandItem
                       key={task.id}
                       value={task.title}
-                      // onSelect={() =>
-                      //   runCommand(() => router.push(`/tasks/${task.id}`))
-                      // }
                     >
                       <CheckSquare className="mr-2 h-4 w-4" />
                       {task.title}

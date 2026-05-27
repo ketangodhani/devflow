@@ -9,6 +9,53 @@ body,
   height: 100%;
 }
 
+@theme {
+  /* Main app background */
+  --color-background: #ffffff;
+
+  /* Main text color */
+  --color-foreground: #09090b;
+
+  /* Cards, modals, panels */
+  --color-card: #ffffff;
+
+  /* Text inside cards */
+  --color-card-foreground: #09090b;
+
+  /* Borders everywhere */
+  --color-border: #e4e4e7;
+
+  /* Soft secondary backgrounds */
+  --color-muted: #f4f4f5;
+
+  /* Secondary/helper text */
+  --color-muted-foreground: #71717a;
+}
+
+.dark {
+  /* Main app background */
+  --color-background: #000000;
+
+  /* Main text color */
+  --color-foreground: #ffffff;
+
+  /* Cards, panels */
+  --color-card: #09090b;
+
+  /* Text inside cards */
+  --color-card-foreground: #ffffff;
+
+  /* Borders */
+  --color-border: #27272a;
+
+  /* Soft elevated surfaces */
+  --color-muted: #18181b;
+
+  /* Secondary/helper text */
+  --color-muted-foreground: #a1a1aa;
+}
+
 body {
-  background: rgb(158, 116, 116);
+  background: var(--color-background);
+  color: var(--color-foreground);
 }

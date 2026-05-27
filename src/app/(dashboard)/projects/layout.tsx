@@ -34,7 +34,7 @@ export default async function ProjectsLayout({
     },
   });
   return (
-    <div className="flex min-h-screen bg-black">
+    <div className="flex min-h-screen bg-background">
       <Sidebar />
 
       <div className="flex flex-1 flex-col">
