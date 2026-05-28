@@ -67,20 +67,20 @@ export function TaskCard({
             {labels.map((label) => (
               <span
                 key={label}
-                className="rounded-full bg-zinc-800 px-2 py-1 text-xs text-zinc-300"
+                className="rounded-full bg-muted-foreground px-2 py-1 text-xs text-card"
               >
                 {label}
               </span>
             ))}
           </div>
-          <p className="mt-2 text-sm text-zinc-400">{description}</p>
+          <p className="mt-2 text-sm text-muted-foreground">{description}</p>
         </div>
         {/* </Link> */}
 
         <button
           {...listeners}
           {...attributes}
-          className="cursor-grab text-zinc-500 active:cursor-grabbing"
+          className="cursor-grab text-muted-foreground active:cursor-grabbing"
         >
           <GripVertical size={18} />
         </button>

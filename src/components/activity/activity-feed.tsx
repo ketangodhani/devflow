@@ -24,14 +24,14 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
                 {activity.action}
               </p>
 
-              <p className="text-sm text-zinc-400">
+              <p className="text-sm text-muted-foreground">
                 Task:{" "}
-                <span className="font-medium text-zinc-200">
+                <span className="font-medium text-foreground">
                   {activity.entityTitle}
                 </span>
               </p>
 
-              <p className="pt-2 text-xs text-zinc-500">
+              <p className="pt-2 text-xs text-muted-foreground">
                 {formatDistanceToNow(new Date(activity.createdAt), {
                   addSuffix: true,
                 })}
