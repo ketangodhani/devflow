@@ -1,5 +1,6 @@
 "use client";
 
+import { clearWorkspaceCookie } from "@/actions/clear-workspace-cookie";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +16,7 @@ export function UserDropdown() {
 
       <DropdownMenuTrigger>
 
-        <div className="h-10 w-10 rounded-full bg-zinc-800" />
+        <div className="h-10 w-10 rounded-full bg-muted" />
 
       </DropdownMenuTrigger>
 
@@ -24,7 +25,12 @@ export function UserDropdown() {
         className="border-border bg-card text-foreground"
       >
         <DropdownMenuItem
-          onClick={() => signOut()}
+          onClick={async () => {
+            await clearWorkspaceCookie();
+            await signOut({
+              callbackUrl: "/login",
+            });
+          }}
           className="cursor-pointer"
         >
           Logout

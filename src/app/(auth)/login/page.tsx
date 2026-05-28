@@ -52,7 +52,7 @@ export default function LoginPage() {
           Welcome back
         </h1>
 
-        <p className="text-zinc-400">
+        <p className="text-muted-foreground">
           Login to continue to DevFlow
         </p>
       </div>
@@ -79,7 +79,7 @@ export default function LoginPage() {
 
         <button
           disabled={loading}
-          className="w-full rounded-xl bg-white p-4 font-medium text-black transition hover:opacity-90"
+          className="w-full rounded-xl bg-foreground p-4 font-medium text-background transition hover:opacity-90"
         >
           {loading ? "Loading..." : "Login"}
         </button>
@@ -93,7 +93,7 @@ export default function LoginPage() {
             callbackUrl: "/dashboard",
           })
         }
-        className="w-full rounded-xl border border-border bg-background p-4 text-foreground transition hover:bg-zinc-900"
+        className="w-full rounded-xl border border-border bg-card p-4 text-card-foreground transition hover:bg-card"
       >
         Continue with GitHub
       </button>

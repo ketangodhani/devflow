@@ -39,7 +39,7 @@ export async function createProject(
       title,
       description,
       userId: session.user.id,
-      workspaceId: workspace!.id,
+      workspaceId: workspace?.id,
     },
   });
   await logActivity({

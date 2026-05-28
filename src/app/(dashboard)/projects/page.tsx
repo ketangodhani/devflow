@@ -19,8 +19,7 @@ export default async function ProjectsPage() {
   const workspace = await getActiveWorkspace();
   const projects = await prisma.project.findMany({
     where: {
-      userId: session.user.id,
-      workspaceId: workspace?.id
+      workspaceId: workspace?.id,
     },
 
     orderBy: {
@@ -30,21 +29,21 @@ export default async function ProjectsPage() {
 
   return (
     <div className="space-y-8 ">
+      <div className="flex items-center gap-2">
+        <div className="rounded-lg border border-border bg-muted px-3 py-1 text-sm text-muted-foreground">
+          {workspace?.name}
+        </div>
+      </div>
       <div>
-        <h1 className="text-4xl font-bold text-foreground">
-          Projects
-        </h1>
+        <h1 className="text-4xl font-bold text-foreground">Projects</h1>
 
-        <p className="mt-2 text-zinc-400">
-          Manage your development projects.
-        </p>
+        <p className="mt-2 text-zinc-400">Manage your development projects.</p>
       </div>
 
       <CreateProjectForm />
 
       {projects.length === 0 ? (
         <div className="rounded-3xl border border-dashed border-border p-12 text-center">
-
           <h2 className="text-2xl font-semibold text-foreground">
             No projects yet
           </h2>
@@ -52,11 +51,9 @@ export default async function ProjectsPage() {
           <p className="mt-2 text-zinc-400">
             Create your first project to get started.
           </p>
-
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-
           {projects.map((project) => (
             <ProjectCard
               key={project.id}
@@ -65,10 +62,8 @@ export default async function ProjectsPage() {
               description={project.description}
             />
           ))}
-
         </div>
       )}
-
     </div>
   );
 }

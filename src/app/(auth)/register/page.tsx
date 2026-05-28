@@ -87,7 +87,7 @@ export default function RegisterPage() {
 
         <button
           disabled={loading}
-          className="w-full rounded-lg bg-background p-3 text-foreground cursor-pointer"
+          className="w-full rounded-lg bg-card p-3 text-foreground cursor-pointer"
         >
           {loading ? "Loading..." : "Register"}
         </button>

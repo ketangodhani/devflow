@@ -6,7 +6,8 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { ReactNode } from "react";
-
+import { getUserWorkspaces } from "@/features/workspaces/queries/get-user-workspace";
+import { cookies } from "next/headers";
 interface ProjectsLayoutProps {
   children: ReactNode;
 }
@@ -19,9 +20,13 @@ export default async function ProjectsLayout({
   if (!session?.user) {
     redirect("/login");
   }
+   const workspaces = await getUserWorkspaces();
+  
+  const activeWorkspaceId = (await cookies()).get("workspaceId")?.value
   const projects = await prisma.project.findMany({
     where: {
       userId: session.user.id,
+      workspaceId: activeWorkspaceId
     },
 
     select: {
@@ -35,7 +40,7 @@ export default async function ProjectsLayout({
   });
   return (
     <div className="flex min-h-screen bg-background">
-      <Sidebar />
+      <Sidebar workspaces={workspaces} activeWorkspaceId={activeWorkspaceId} />
 
       <div className="flex flex-1 flex-col">
         <Navbar projects={projects} />
