@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 
 import { createProjectSchema } from "@/lib/validations/project";
 import { logActivity } from "@/lib/activity";
-
+import { getActiveWorkspace } from "@/features/workspaces/lib/get-active-workspace";
 export async function createProject(
   formData: FormData
 ) {
@@ -30,6 +30,7 @@ export async function createProject(
     throw new Error("Invalid fields");
   }
 
+  const workspace = await getActiveWorkspace()
   const { title, description } =
     validatedFields.data;
 
@@ -38,6 +39,7 @@ export async function createProject(
       title,
       description,
       userId: session.user.id,
+      workspaceId: workspace!.id,
     },
   });
   await logActivity({

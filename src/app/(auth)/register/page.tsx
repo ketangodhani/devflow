@@ -34,6 +34,8 @@ export default function RegisterPage() {
         }),
       });
 
+      
+
       if (!res.ok) {
         throw new Error("Something went wrong");
       }

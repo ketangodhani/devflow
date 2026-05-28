@@ -8,16 +8,19 @@ import { CreateProjectForm } from "@/components/projects/create-project-form";
 
 import { ProjectCard } from "@/components/projects/project-card";
 
+import { getActiveWorkspace } from "@/features/workspaces/lib/get-active-workspace";
+
 export default async function ProjectsPage() {
   const session = await auth();
 
   if (!session?.user?.id) {
     redirect("/login");
   }
-
+  const workspace = await getActiveWorkspace();
   const projects = await prisma.project.findMany({
     where: {
       userId: session.user.id,
+      workspaceId: workspace?.id
     },
 
     orderBy: {
