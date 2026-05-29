@@ -19,11 +19,13 @@ export default async function DashboardLayout({
   const workspaces = await getUserWorkspaces();
 
   const activeWorkspaceId = (await cookies()).get("workspaceId")?.value
+  const effectiveWorkspaceId =
+  activeWorkspaceId || workspaces[0]?.id;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-screen bg-background">
 
-      <Sidebar workspaces={workspaces} activeWorkspaceId={activeWorkspaceId}/>
+      <Sidebar workspaces={workspaces} activeWorkspaceId={effectiveWorkspaceId} />
 
       <div className="flex flex-1 flex-col overflow-hidden">
 

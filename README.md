@@ -7,6 +7,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
+
 DevFlow is a modern, portfolio-grade project management platform designed for efficiency and scalability. Built with the latest **Next.js 15** and **React 19** features, it offers a seamless Kanban-style task management experience with secure authentication and robust database integration.
 
 ---

@@ -8,34 +8,26 @@ import { useEffect, useState } from "react";
 
 interface Notification {
   id: string;
-
   title: string;
-
   read: boolean;
-
   link: string | null;
-
   createdAt: string;
 }
 
 export default function NotificationBell() {
   const [open, setOpen] = useState(false);
-
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
     async function loadNotifications() {
       try {
         const res = await fetch("/api/notifications");
-
         const data = await res.json();
-
         setNotifications(data);
       } catch (error) {
         console.error(error);
       }
     }
-
     loadNotifications();
   }, []);
 
@@ -61,7 +53,9 @@ export default function NotificationBell() {
 
           <div className="max-h-100 overflow-y-auto">
             {notifications.length === 0 ? (
-              <div className="p-4 text-sm text-zinc-500">No notifications</div>
+              <div className="p-4 text-sm text-muted-foreground">
+                No notifications
+              </div>
             ) : (
               notifications.map((notification) => (
                 <button
@@ -88,15 +82,17 @@ export default function NotificationBell() {
                       console.error(error);
                     }
                   }}
-                  className={`block w-full rounded-xl p-4 text-left transition hover:bg-zinc-900 ${
-                    !notification.read ? "bg-zinc-900/60" : ""
+                  className={`block w-full rounded-xl p-4 text-left transition hover:bg-muted ${
+                    !notification.read ? "bg-muted" : ""
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-sm text-foreground">{notification.title}</p>
+                      <p className="text-sm text-foreground">
+                        {notification.title}
+                      </p>
 
-                      <p className="mt-1 text-xs text-zinc-500">
+                      <p className="mt-1 text-xs text-muted-foreground">
                         {new Date(notification.createdAt).toLocaleString()}
                       </p>
                     </div>

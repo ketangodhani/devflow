@@ -23,10 +23,10 @@ export default async function ProjectsLayout({
    const workspaces = await getUserWorkspaces();
   
   const activeWorkspaceId = (await cookies()).get("workspaceId")?.value
+  const effectiveWorkspaceId = activeWorkspaceId || workspaces[0]?.id
   const projects = await prisma.project.findMany({
     where: {
-      userId: session.user.id,
-      workspaceId: activeWorkspaceId
+      workspaceId: effectiveWorkspaceId,
     },
 
     select: {
@@ -40,7 +40,7 @@ export default async function ProjectsLayout({
   });
   return (
     <div className="flex min-h-screen bg-background">
-      <Sidebar workspaces={workspaces} activeWorkspaceId={activeWorkspaceId} />
+      <Sidebar workspaces={workspaces} activeWorkspaceId={effectiveWorkspaceId} />
 
       <div className="flex flex-1 flex-col">
         <Navbar projects={projects} />
