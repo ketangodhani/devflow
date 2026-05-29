@@ -187,7 +187,7 @@ This enables:
 
 ## 👨‍💻 Author
 
-Built by **Ketan **
+Built by **Ketan ❤**
 
 *   **GitHub**: [github.com/ketangodhani](https://github.com//ketangodhani)
 *   **LinkedIn**: [linkedin.com/in/ketan-godhani](https://linkedin.com/in/ketan-godhani)
