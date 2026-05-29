@@ -9,7 +9,8 @@
 [![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?style=for-the-badge&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
 
 
-DevFlow is a modern, portfolio-grade project management platform designed for efficiency and scalability. Built with the latest **Next.js 15** and **React 19** features, it offers a seamless Kanban-style task management experience with secure authentication and robust database integration.
+DevFlow is a modern collaborative project management SaaS inspired by tools like Linear and Jira. Built with Next.js 15, React 19, Prisma, and PostgreSQL, it features workspace-based collaboration, Kanban task management, notifications, comments, attachments, activity tracking, and a scalable multi-tenant architecture.
+
 
 ---
 
@@ -46,6 +47,17 @@ DevFlow is designed as a complete SaaS application that demonstrates modern fron
 - **Optimistic UI:** Instant visual feedback for task status changes before server confirmation.
 - **Animated UI:** Smooth transitions and micro-interactions powered by Framer Motion.
 
+### 🤝 Collaboration & Workspaces
+
+- **Workspace Architecture:** Multi-tenant SaaS structure with isolated workspaces.
+- **Workspace Members:** Invite and collaborate with team members.
+- **Scoped Collaboration:** Projects, tasks, and notifications are workspace-aware.
+- **Activity Feed:** Real-time-style activity tracking for tasks and projects.
+- **Comments System:** Collaborative task discussions.
+- **Notifications:** In-app notifications for assignments, comments, and updates.
+- **Attachments:** Upload and manage task files with UploadThing integration.
+- **Mentions System (In Progress):** Planned @mentions with member notifications.
+
 ### 🌓 Theme & Layout
 
 - **Dark Mode:** Native dark/light mode toggle with system preference detection.
@@ -57,11 +69,11 @@ DevFlow is designed as a complete SaaS application that demonstrates modern fron
 
 | Layer              | Technologies                                           |
 | :----------------- | :----------------------------------------------------- |
-| **Frontend**       | Next.js 15, React 19, Tailwind CSS, shadcn/ui |
-| **Backend**        | Next.js Server Actions, Zod (Validation)      |
-| **Database**       | PostgreSQL, Prisma ORM                        |
-| **Authentication** | Auth.js (v5), GitHub OAuth                    |
-| **Libraries**      | dnd-kit, Framer Motion, Lucide Icons          |
+| **Frontend**       | Next.js 15, React 19, Tailwind CSS, shadcn/ui     |
+| **Backend**        | Next.js Server Actions, Zod (Validation)          |
+| **Database**       | PostgreSQL, Prisma ORM, UploadThing               |
+| **Authentication** | Auth.js (v5), GitHub OAuth                        |
+| **Libraries**      | dnd-kit, Framer Motion, Lucide Icons, next-themes |
 
 ---
 
@@ -81,28 +93,60 @@ src/
 ## 📊 Database Schema
 
 Core entities and relationships:
-*   **User**: Handles authentication and profile data.
-*   **Project**: Owned by a User; contains multiple tasks.
-*   **Task**: Belongs to a Project; tracks status and transitions.
+*   **User:** Authentication and profile management.
+*   **Workspace:** Collaborative organization container.
+*   **WorkspaceMember:** Workspace membership and roles.
+*   **Project:** Workspace-level project management.
+*   **Task:** Kanban workflow tasks with statuses and priorities.
+*   **Comment:** Task discussions and collaboration.
+*   **Activity:** Project and task activity tracking.
+*   **Attachment:** File uploads and task resources.
+*   **Notification:** In-app notification system.
+  
+---
+
+## 🏢 Multi-Tenant SaaS Architecture
+
+DevFlow is built using a workspace-based architecture similar to Linear and Jira.
+
+### Architecture Overview
+
+Workspace
+→ Members
+→ Projects
+→ Tasks
+→ Comments
+→ Activity
+→ Notifications
+
+This enables:
+
+* Workspace-scoped collaboration
+* Role-based scalability
+* Team isolation
+* Real-time collaboration readiness
+* Scalable SaaS foundations
 
 ---
 
 ## 🏗 Architecture Highlights
 
-*   **App Router Architecture**: Leverages route groups, server components, and dynamic routes.
-*   **Scalable Component Design**: Reusable UI primitives and folder-based component organization.
-*   **Modern UX Patterns**: Focus on perceived performance through skeletons and optimistic updates.
+*   **App Router Architecture:** Leverages route groups, server components, and dynamic routes.
+*   **Collaborative SaaS Architecture:** Workspace-based multi-tenant system with scoped projects, members, notifications, and activity tracking.
+*   **Modern UX Patterns:** Focus on perceived performance through skeletons and optimistic updates.
 
 ---
 
 ## 🔮 Future Improvements
 
-*   [ ] Real-time collaboration
-*   [ ] AI task summaries
-*   [ ] Activity timeline
-*   [ ] Notifications system
-*   [ ] Team workspaces
-*   [ ] File uploads
+- [ ] Realtime collaboration with Socket.io / Pusher
+- [ ] Rich text editor for comments
+- [ ] Workspace roles & permissions
+- [ ] Global search & command palette
+- [ ] Calendar & timeline views
+- [ ] Advanced analytics dashboard
+- [ ] Mention system with autocomplete
+- [ ] Realtime notifications
 
 ---
 ## ⚙️ Installation
@@ -143,7 +187,7 @@ Core entities and relationships:
 
 ## 👨‍💻 Author
 
-Built by **Ketan**
+Built by **Ketan **
 
 *   **GitHub**: [github.com/ketangodhani](https://github.com//ketangodhani)
 *   **LinkedIn**: [linkedin.com/in/ketan-godhani](https://linkedin.com/in/ketan-godhani)
@@ -153,21 +197,3 @@ Built by **Ketan**
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE)# DevFlow
-
-A modern full-stack project management platform built with **Next.js**, **Auth.js**, **Prisma**, **PostgreSQL**, and **Tailwind CSS**.
-
-DevFlow is designed as a portfolio-grade SaaS application that demonstrates modern frontend architecture, authentication systems, database design, drag-and-drop interactions, server actions, and scalable application structure.
-
-## 🚀 Overview
-
-DevFlow includes a comprehensive suite of features designed for a seamless project management experience:
-
-*   **Modern SaaS Dashboard UI**: Clean, intuitive, and responsive.
-*   **Authentication with Auth.js**: Supporting both Credentials and GitHub OAuth.
-*   **Protected Routes**: Secure middleware-based access control.
-*   **Project & Task Management**: Full CRUD functionality and database persistence.
-*   **Drag-and-Drop Kanban Board**: Interactive task movement with optimistic UI.
-*   **Prisma + PostgreSQL**: Robust database management.
-*   **Optimistic UI Updates**: Instant feedback for user actions.
-*   **Dark Mode Support**: Fully integrated theme switching.
-
