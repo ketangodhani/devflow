@@ -29,13 +29,13 @@ export default function LoginPage() {
       });
 
       if (res?.error) {
-        toast.error("Invalid credentials");
+        toast.error("Invalid email or password");
         return;
       }
 
       toast.success("Welcome back");
 
-      router.push("/dashboard");
+      router.push("/api/workspaces/init");
 
     } catch (error) {
       toast.error("Something went wrong");
