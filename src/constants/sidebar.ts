@@ -3,6 +3,7 @@ import {
   FolderKanban,
   CheckSquare,
   Settings,
+  Handshake,
 } from "lucide-react";
 
 export const sidebarLinks = [
@@ -26,4 +27,9 @@ export const sidebarLinks = [
     href: "/settings",
     icon: Settings,
   },
+  {
+    label: "Members",
+    href: "/members",
+    icon: Handshake,
+  }
 ];

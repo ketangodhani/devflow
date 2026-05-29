@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { AuthProvider } from "@/components/providers/session-provider";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -20,8 +21,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
+          <AuthProvider>
           {children}
           <Toaster richColors />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

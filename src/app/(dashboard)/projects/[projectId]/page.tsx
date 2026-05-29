@@ -23,14 +23,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     redirect("/login");
   }
   const { projectId } = await params;
-  const project = await prisma.project.findUnique({
+  const project = await prisma.project.findFirst({
     where: {
       id: projectId,
-      userId: session.user.id,
+
+      workspace: {
+        members: {
+          some: {
+            userId: session.user.id,
+          },
+        },
+      },
     },
 
     include: {
       tasks: true,
+
       activities: {
         orderBy: {
           createdAt: "desc",
@@ -50,7 +58,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <div>
         <h1 className="text-4xl font-bold text-foreground">{project.title}</h1>
 
-        <p className="mt-2 text-zinc-400">{project.description}</p>
+        <p className="mt-2 text-muted-foreground">{project.description}</p>
       </div>
 
       <CreateTaskForm projectId={project.id} />

@@ -10,6 +10,7 @@ import { ProjectCard } from "@/components/projects/project-card";
 
 import { getActiveWorkspace } from "@/features/workspaces/lib/get-active-workspace";
 
+
 export default async function ProjectsPage() {
   const session = await auth();
 

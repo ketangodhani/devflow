@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import TaskDetailsContent from "@/components/tasks/task-details-content";
+import { getActiveWorkspace } from "@/features/workspaces/lib/get-active-workspace";
 
 interface Props {
   params: Promise<{
@@ -22,7 +23,7 @@ export default async function TaskPage({ params }: Props) {
       project: true,
       activities: {
         where: {
-          taskId: taskId
+          taskId: taskId,
         },
         orderBy: {
           createdAt: "desc",
@@ -44,13 +45,25 @@ export default async function TaskPage({ params }: Props) {
   if (!task) {
     return <div>Task not found</div>;
   }
-  const users = await prisma.user.findMany({
-    select: {
-      id: true,
-      name: true,
-      email: true,
+  const workspace = await getActiveWorkspace();
+
+  const members = await prisma.workspaceMember.findMany({
+    where: {
+      workspaceId: workspace?.id,
+    },
+
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
     },
   });
+
+  const users = members.map((member) => member.user);
 
   return (
     <div className="px-6">
