@@ -5,6 +5,7 @@ import { createTaskSchema } from "@/lib/validations/task";
 import { TaskStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { logActivity } from "../lib/activity";
+import { notify } from "../lib/notify";
 
 export async function createTask(formData: FormData) {
   const session = await auth();
@@ -30,15 +31,37 @@ export async function createTask(formData: FormData) {
       projectId,
     },
   });
+  const project = await prisma.project.findUnique({
+    where: {
+      id: projectId,
+    },
+
+    include: {
+      workspace: true,
+    },
+  });
+  if (!project?.workspace) {
+    throw new Error("Workspace not found");
+  }
+  if (
+    project?.workspace.ownerId &&
+    project.workspace.ownerId !== session.user.id
+  ) {
+    await notify({
+      userId: project.workspace.ownerId,
+      title: `${session.user.name} created task "${task.title}"`,
+      link: `/projects/${projectId}`,
+    });
+  }
   await logActivity({
-  action: "Created",
-  entityType: "Task",
-  entityTitle: task.title,
+    action: "Created",
+    entityType: "Task",
+    entityTitle: task.title,
 
-  userId: session.user.id,
+    userId: session.user.id,
 
-  projectId: task.projectId,
-});
+    projectId: task.projectId,
+  });
   revalidatePath(`/projects/${projectId}`);
 }
 
@@ -56,13 +79,13 @@ export async function updateTaskStatus(taskId: string, status: TaskStatus) {
     },
   });
   await logActivity({
-  action: `moved to ${status}`,
-  entityType: "Task",
-  entityTitle: task.title,
+    action: `moved to ${status}`,
+    entityType: "Task",
+    entityTitle: task.title,
 
-  userId: session.user.id,
+    userId: session.user.id,
 
-  projectId: task.projectId,
-});
+    projectId: task.projectId,
+  });
   revalidatePath(`/projects`);
 }

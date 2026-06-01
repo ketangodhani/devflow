@@ -41,8 +41,8 @@ model Project {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  workspaceId String?
-  workspace   Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 
   tasks      Task[]
   activities Activity[]
