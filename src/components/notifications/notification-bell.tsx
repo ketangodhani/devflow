@@ -51,7 +51,7 @@ export default function NotificationBell() {
             <h2 className="font-semibold text-foreground">Notifications</h2>
           </div>
 
-          <div className="max-h-100 overflow-y-auto">
+          <div className="max-h-100 overflow-y-auto ">
             {notifications.length === 0 ? (
               <div className="p-4 text-sm text-muted-foreground">
                 No notifications
