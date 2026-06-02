@@ -7,6 +7,7 @@ import { getActiveWorkspace } from "@/features/workspaces/lib/get-active-workspa
 
 import { InviteMemberDialog } from "@/components/workspaces/invite-member-dialog";
 import { DeleteWorkspaceDialog } from "@/features/workspaces/components/delete-workspace-dialog";
+import { MemberRoleSelect } from "@/features/workspaces/components/member-role-select";
 
 export default async function MembersPage() {
   const session = await auth();
@@ -34,8 +35,7 @@ export default async function MembersPage() {
       createdAt: "asc",
     },
   });
-  const membership =
-  await prisma.workspaceMember.findUnique({
+  const membership = await prisma.workspaceMember.findUnique({
     where: {
       workspaceId_userId: {
         workspaceId: workspace.id,
@@ -48,18 +48,14 @@ export default async function MembersPage() {
     <div className="space-y-8">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-4xl font-bold text-foreground">
-            Members
-          </h1>
+          <h1 className="text-4xl font-bold text-foreground">Members</h1>
 
           <p className="mt-2 text-muted-foreground">
             Manage workspace members.
           </p>
         </div>
 
-        <InviteMemberDialog
-          workspaceId={workspace.id}
-        />
+        <InviteMemberDialog workspaceId={workspace.id} />
         {membership?.role === "OWNER" && (
           <DeleteWorkspaceDialog
             workspaceId={workspace.id}
@@ -67,7 +63,6 @@ export default async function MembersPage() {
           />
         )}
       </div>
-        
 
       <div className="rounded-3xl border border-border bg-card">
         <div className="divide-y divide-border">
@@ -93,7 +88,13 @@ export default async function MembersPage() {
               </div>
 
               <div className="rounded-full border border-border px-3 py-1 text-sm text-muted-foreground">
-                {member.role}
+                {member.role === "OWNER" ? (
+                  <span className="rounded-full border px-3 py-1 text-xs font-medium">
+                    OWNER
+                  </span>
+                ) : (
+                  <MemberRoleSelect memberId={member.id} role={member.role} />
+                )}
               </div>
             </div>
           ))}
