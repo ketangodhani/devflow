@@ -142,6 +142,7 @@ export function WorkspaceSwitcher({ workspaces, activeWorkspaceId }: Props) {
               {workspace.id === activeWorkspaceId && (
                 <Check className="h-4 w-4 text-foreground shrink-0" />
               )}
+              
             </button>
           ))}
         </div>

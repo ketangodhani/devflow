@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { getActiveWorkspace } from "@/features/workspaces/lib/get-active-workspace";
 
 import { InviteMemberDialog } from "@/components/workspaces/invite-member-dialog";
+import { DeleteWorkspaceDialog } from "@/features/workspaces/components/delete-workspace-dialog";
 
 export default async function MembersPage() {
   const session = await auth();
@@ -33,6 +34,15 @@ export default async function MembersPage() {
       createdAt: "asc",
     },
   });
+  const membership =
+  await prisma.workspaceMember.findUnique({
+    where: {
+      workspaceId_userId: {
+        workspaceId: workspace.id,
+        userId: session.user.id,
+      },
+    },
+  });
 
   return (
     <div className="space-y-8">
@@ -50,7 +60,14 @@ export default async function MembersPage() {
         <InviteMemberDialog
           workspaceId={workspace.id}
         />
+        {membership?.role === "OWNER" && (
+          <DeleteWorkspaceDialog
+            workspaceId={workspace.id}
+            workspaceName={workspace.name}
+          />
+        )}
       </div>
+        
 
       <div className="rounded-3xl border border-border bg-card">
         <div className="divide-y divide-border">
