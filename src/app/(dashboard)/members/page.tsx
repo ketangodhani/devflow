@@ -8,6 +8,7 @@ import { getActiveWorkspace } from "@/features/workspaces/lib/get-active-workspa
 import { InviteMemberDialog } from "@/components/workspaces/invite-member-dialog";
 import { DeleteWorkspaceDialog } from "@/features/workspaces/components/delete-workspace-dialog";
 import { MemberRoleSelect } from "@/features/workspaces/components/member-role-select";
+import { RemoveMemberButton } from "@/features/workspaces/components/remove-member-button";
 
 export default async function MembersPage() {
   const session = await auth();
@@ -87,13 +88,17 @@ export default async function MembersPage() {
                 </div>
               </div>
 
-              <div className="rounded-full border border-border px-3 py-1 text-sm text-muted-foreground">
+              <div className="flex items-center gap-3">
                 {member.role === "OWNER" ? (
                   <span className="rounded-full border px-3 py-1 text-xs font-medium">
                     OWNER
                   </span>
                 ) : (
-                  <MemberRoleSelect memberId={member.id} role={member.role} />
+                  <>
+                    <MemberRoleSelect memberId={member.id} role={member.role} />
+
+                    <RemoveMemberButton memberId={member.id} />
+                  </>
                 )}
               </div>
             </div>
