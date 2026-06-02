@@ -30,6 +30,13 @@ body,
 
   /* Secondary/helper text, bg-zinc-500/400 */
   --color-muted-foreground: #71717a;
+
+  /* SaaS Smoothness Borders & Radius variables */
+  --radius-xl: 12px;
+  --radius-lg: 8px;
+  
+  /* Custom cubic-bezier for buttery smooth SaaS transitions */
+  --transition-timing-function-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dark {
@@ -58,4 +65,19 @@ body,
 body {
   background: var(--color-background);
   color: var(--color-foreground);
+}
+
+/* Custom Scrollbar to look premium in SaaS apps */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
 }
