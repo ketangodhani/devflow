@@ -27,6 +27,23 @@ DevFlow is designed as a complete SaaS application that demonstrates modern fron
 
 ---
 
+## ✅ Current Features
+
+- Authentication (Credentials + GitHub OAuth)
+- Workspace Management
+- Role-Based Collaboration
+- Project Management
+- Kanban Task Board
+- Task Comments
+- File Attachments
+- Activity Tracking
+- Notifications
+- Workspace Dashboard
+- Dark / Light Theme
+- Responsive UI
+  
+---
+
 ## ✨ Features
 
 ### 🔐 Secure Authentication
@@ -37,7 +54,9 @@ DevFlow is designed as a complete SaaS application that demonstrates modern fron
 
 ### 📊 Dashboard & Projects
 
-- **Analytics Cards:** Real-time stats for projects and tasks.
+- **Workspace Dashboard:** Real-time workspace insights and productivity metrics.
+- **Analytics Cards:** Projects, tasks, members, completion rate, and workflow statistics.
+- **Recent Activity Feed:** Track workspace activity across projects and tasks.
 - **Project Tracking:** Create and manage multiple projects with distinct task sets.
 - **Dynamic Routing:** Efficient project-specific detail pages using App Router.
 
@@ -50,7 +69,10 @@ DevFlow is designed as a complete SaaS application that demonstrates modern fron
 ### 🤝 Collaboration & Workspaces
 
 - **Workspace Architecture:** Multi-tenant SaaS structure with isolated workspaces.
-- **Workspace Members:** Invite and collaborate with team members.
+- **Workspace Management:** Create, switch, and manage multiple workspaces.
+- **Role-Based Access:** OWNER, ADMIN, and MEMBER roles.
+- **Member Management:** Invite, remove, and manage workspace members.
+- **Workspace Deletion:** Owner-only workspace deletion with confirmation.
 - **Scoped Collaboration:** Projects, tasks, and notifications are workspace-aware.
 - **Activity Feed:** Real-time-style activity tracking for tasks and projects.
 - **Comments System:** Collaborative task discussions.
@@ -112,12 +134,13 @@ DevFlow is built using a workspace-based architecture similar to Linear and Jira
 ### Architecture Overview
 
 Workspace
-→ Members
-→ Projects
-→ Tasks
-→ Comments
-→ Activity
-→ Notifications
+├── Members
+├── Projects
+│   ├── Tasks
+│   ├── Comments
+│   ├── Attachments
+│   └── Activity
+└── Notifications
 
 This enables:
 
@@ -141,7 +164,6 @@ This enables:
 
 - [ ] Realtime collaboration with Socket.io / Pusher
 - [ ] Rich text editor for comments
-- [ ] Workspace roles & permissions
 - [ ] Global search & command palette
 - [ ] Calendar & timeline views
 - [ ] Advanced analytics dashboard
@@ -196,4 +218,4 @@ Built by **Ketan ❤**
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE)# DevFlow
+This project is licensed under the [MIT License](LICENSE).
