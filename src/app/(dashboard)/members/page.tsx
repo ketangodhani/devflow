@@ -57,12 +57,6 @@ export default async function MembersPage() {
         </div>
 
         <InviteMemberDialog workspaceId={workspace.id} />
-        {membership?.role === "OWNER" && (
-          <DeleteWorkspaceDialog
-            workspaceId={workspace.id}
-            workspaceName={workspace.name}
-          />
-        )}
       </div>
 
       <div className="rounded-3xl border border-border bg-card">
@@ -105,6 +99,12 @@ export default async function MembersPage() {
           ))}
         </div>
       </div>
+      {membership?.role === "OWNER" && (
+        <DeleteWorkspaceDialog
+          workspaceId={workspace.id}
+          workspaceName={workspace.name}
+        />
+      )}
     </div>
   );
 }
