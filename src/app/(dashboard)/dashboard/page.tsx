@@ -11,6 +11,7 @@ import {
 import { DashboardCard } from "@/components/dashboard/dashboard-card";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 import { getActiveWorkspace } from "@/features/workspaces/lib/get-active-workspace";
 import { ActivityFeed } from "@/components/activity/activity-feed";
 
@@ -228,7 +229,8 @@ export default async function DashboardPage() {
               </div>
             ) : (
               recentProjects.map((project) => (
-                <div
+                <Link
+                  href={`/projects/${project.id}`}
                   key={project.id}
                   className="group flex items-start justify-between p-3.5 rounded-xl border border-border/60 bg-muted/20 hover:bg-muted/40 hover:border-border transition-all duration-200 cursor-pointer"
                 >
@@ -242,7 +244,7 @@ export default async function DashboardPage() {
                     </p>
                   </div>
                   <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-indigo-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200 shrink-0 mt-0.5" />
-                </div>
+                </Link>
               ))
             )}
           </div>

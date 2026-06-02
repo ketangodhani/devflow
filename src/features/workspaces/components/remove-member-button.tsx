@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { Loader2, UserMinus } from "lucide-react";
+import { Loader2, UserMinus, AlertTriangle } from "lucide-react";
 
 import {
   AlertDialog,
@@ -33,18 +33,15 @@ export function RemoveMemberButton({ memberId, memberName }: Props) {
       try {
         const result = await removeMember(memberId);
 
-        // ❌ Server side authorization validation failed
         if (result?.error) {
           toast.error(result.error);
-          setOpen(false); // Modal close kar do
+          setOpen(false); 
           return;
         }
 
-        // ✅ Success
         toast.success(`${memberName} has been removed from workspace`);
         setOpen(false);
       } catch {
-        // ❌ Network level drop failure
         toast.error("Network error: Failed to remove member");
       }
     });
@@ -52,45 +49,63 @@ export function RemoveMemberButton({ memberId, memberName }: Props) {
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      {/* 💥 FIXED: Added asChild here to stop TS and HTML nesting crashes */}
       <AlertDialogTrigger>
+        {/* UPGRADED: Safe dynamic interactive row button */}
         <Button
           variant="ghost"
           size="sm"
-          className="rounded-xl h-9 text-muted-foreground hover:text-red-600 hover:bg-red-500/10 transition-all duration-200"
+          className="rounded-xl h-9 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 active:scale-[0.98] transition-all duration-200"
         >
           <UserMinus className="h-4 w-4 mr-2" />
           Remove
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent className="rounded-2xl border border-border/60 max-w-[400px]">
+      {/* COMPLETE REDESIGN: Exact same solid aesthetic spec of delete workspace dialog */}
+      <AlertDialogContent className="rounded-2xl border border-red-500/20 bg-card p-6 max-w-[420px] shadow-2xl shadow-red-500/[0.03]">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-lg font-semibold tracking-tight text-foreground">
-            Remove team member?
-          </AlertDialogTitle>
-          <AlertDialogDescription className="text-sm text-muted-foreground">
-            This will revoke <span className="font-medium text-foreground">{memberName}</span>&apos;s access to this workspace, projects, and documents instantly.
+          <div className="flex items-center gap-3">
+            {/* Soft background solid icon box to emphasize destructive action */}
+            <div className="p-2 rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 shrink-0">
+              <AlertTriangle className="h-4 w-4" />
+            </div>
+            <AlertDialogTitle className="text-lg font-semibold tracking-tight text-foreground">
+              Remove team member?
+            </AlertDialogTitle>
+          </div>
+          
+          <AlertDialogDescription className="text-xs text-muted-foreground leading-relaxed pt-3 space-y-3">
+            <p>
+              This will revoke <span className="font-semibold text-foreground">{memberName}</span>&apos;s access to this workspace, projects, and documents instantly.
+            </p>
+            {/* Premium red banner highlight card block matching the workspace dialog layout */}
+            <p className="border-l-2 border-red-500 bg-red-500/[0.04] p-3 rounded-r-xl text-foreground/90 font-medium">
+              Warning: This member will lose all ongoing task ownerships and collaboration privileges in this workspace session.
+            </p>
           </AlertDialogDescription>
         </AlertDialogHeader>
         
-        <AlertDialogFooter className="mt-2 gap-2 sm:gap-0">
-          <AlertDialogCancel disabled={pending} className="rounded-xl text-sm">
+        <AlertDialogFooter className="mt-5 gap-2 sm:gap-0">
+          <AlertDialogCancel 
+            disabled={pending} 
+            className="rounded-xl text-xs font-medium h-9 border-border/80 hover:bg-muted"
+          >
             Cancel
           </AlertDialogCancel>
+          
           <AlertDialogAction
             onClick={(e) => {
-              e.preventDefault(); // Prevents auto-closing before async operation ends
+              e.preventDefault(); 
               handleRemove();
             }}
             disabled={pending}
-            className="rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm disabled:opacity-50"
+            className="rounded-xl text-xs font-medium h-9 bg-red-600 hover:bg-red-700 text-white transition-colors shadow-sm shadow-red-600/20 disabled:opacity-50"
           >
             {pending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Removing...
-              </>
+              <div className="flex items-center gap-1.5">
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                <span>Removing...</span>
+              </div>
             ) : (
               "Remove Member"
             )}
