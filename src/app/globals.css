@@ -10,25 +10,18 @@ body,
 }
 
 @theme {
-  /* Main app background, bg-black*/
+  /* ==========================================================================
+     LIGHT MODE VARIABLES (Clean & Crisp)
+     ========================================================================== */
   --color-background: #ffffff;
-
-  /* Main text color, text-white */
   --color-foreground: #09090b;
 
-  /* Cards, modals, panels, bg-zinc-900 */
   --color-card: #ffffff;
-
-  /* Text inside cards, text-zinc-300 */
   --color-card-foreground: #09090b;
 
-  /* Borders everywhere */
   --color-border: #e4e4e7;
 
-  /* Soft secondary backgrounds, bg-zinc-900 */
   --color-muted: #f4f4f5;
-
-  /* Secondary/helper text, bg-zinc-500/400 */
   --color-muted-foreground: #71717a;
 
   /* SaaS Smoothness Borders & Radius variables */
@@ -39,37 +32,43 @@ body,
   --transition-timing-function-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ==========================================================================
+   MODERN OBSIDIAN DARK MODE (Linear & Vercel Inspired)
+   ========================================================================== */
 .dark {
-  /* Main app background */
-  --color-background: #000000;
+  /* 🌌 Deep premium space tint (not pure dead black) */
+  --color-background: #0b0b0f;
 
-  /* Main text color */
-  --color-foreground: #ffffff;
+  /* Off-white text that is softer on the eyes */
+  --color-foreground: #f4f4f5;
 
-  /* Cards, panels */
-  --color-card: #09090b;
+  /* Slightly elevated rich-slate tone for cards & modals */
+  --color-card: #12121a;
+  --color-card-foreground: #f4f4f5;
 
-  /* Text inside cards */
-  --color-card-foreground: #ffffff;
+  /* Softer border tint with a touch of transparency vibe */
+  --color-border: #1e1e2a;
 
-  /* Borders */
-  --color-border: #27272a;
-
-  /* Soft elevated surfaces */
-  --color-muted: #18181b;
-
-  /* Secondary/helper text */
-  --color-muted-foreground: #7e7ea0;
+  /* Soft interactive background states (hover layers, lists) */
+  --color-muted: #161622;
+  
+  /* Perfectly balanced text color for captions/descriptions */
+  --color-muted-foreground: #8a8a9e;
 }
 
+/* ==========================================================================
+   BASE STYLES
+   ========================================================================== */
 body {
   background: var(--color-background);
   color: var(--color-foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11"; /* Boosts modern inter font rendering if used */
 }
 
 /* Custom Scrollbar to look premium in SaaS apps */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -79,5 +78,6 @@ body {
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-muted-foreground);
+  /* Soft hover state that dynamically adjusts */
+  background: rgba(138, 138, 158, 0.4); 
 }
