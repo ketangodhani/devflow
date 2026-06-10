@@ -29,12 +29,12 @@ export async function removeMember(memberId: string) {
       },
     });
 
-    // 🛡️ Security Check 1: Sirf OWNER hi members ko remove kar sakta hai
+    // Security Check 1: Sirf OWNER hi members ko remove kar sakta hai
     if (currentUserMembership?.role !== "OWNER") {
       return { error: "Access Denied: Only the Workspace Owner can remove members." };
     }
 
-    // 🛡️ Security Check 2: Owner khud ko list se remove nahi kar sakta (use delete workspace karna hoga)
+    // Security Check 2: Owner khud ko list se remove nahi kar sakta (use delete workspace karna hoga)
     if (member.role === "OWNER") {
       return { error: "Action Forbidden: The Workspace Owner cannot be removed." };
     }
