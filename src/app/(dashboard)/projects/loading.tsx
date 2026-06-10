@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function LoadingProjectsPage() {
+export default function ProjectsLoading() {
   return (
     <div className="space-y-8">
       {/* Workspace badge */}

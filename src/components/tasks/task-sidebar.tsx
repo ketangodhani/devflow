@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import TaskDeleteButton from "./task-delete-button";
+import DeleteTaskDialog from "./delete-task-dialog";
 import TaskStatusSelect from "./task-select-status";
 import TaskPrioritySelect from "./task-priority-select";
 import TaskLabels from "./task-labels";
@@ -58,7 +58,11 @@ export default function TaskSidebar({ task, users }: Props) {
           {format(new Date(task.updatedAt), "PPP")}
         </p>
       </div>
-      <TaskDeleteButton taskId={task.id} projectId={task.projectId} />
+      <DeleteTaskDialog 
+        taskId={task.id}
+        projectId={task.projectId}
+        taskTitle={task.title}
+      />
     </div>
   );
 }
