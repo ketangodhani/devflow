@@ -50,16 +50,17 @@ export function CreateWorkspaceDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        {/* Sidebar Trigger Button: Made subtle with outline and a leading icon */}
-        <Button 
-          variant="outline" 
-          className="w-full justify-start gap-2 rounded-xl border-dashed border-border/80 hover:border-foreground/30 hover:bg-muted text-muted-foreground hover:text-foreground transition-all duration-200"
-        >
-          <Plus className="h-4 w-4" />
-          <span>Create Workspace</span>
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <Button 
+            variant="outline" 
+            className="w-full justify-start gap-2 rounded-xl border-dashed border-border/80 hover:border-foreground/30 hover:bg-muted text-muted-foreground hover:text-foreground transition-all duration-200"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Create Workspace</span>
+          </Button>
+        }
+      />
 
       <DialogContent className="sm:max-w-[425px] p-0 overflow-hidden border border-border/60 bg-card shadow-2xl rounded-2xl">
         {/* Header Section with subtle background tint */}

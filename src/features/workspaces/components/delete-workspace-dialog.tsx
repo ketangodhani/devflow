@@ -59,15 +59,17 @@ export function DeleteWorkspaceDialog({ workspaceId, workspaceName }: Props) {
     setOpen(val);
     if (!val) setConfirmName("");
   }}>
-    <DialogTrigger>
-      <Button 
-        variant="destructive" 
-        className="rounded-xl font-medium shadow-sm bg-red-600 hover:bg-red-700 active:bg-red-800 text-white transition-all duration-200"
-      >
-        <Trash2 className="mr-2 h-4 w-4" />
-        Delete Workspace
-      </Button>
-    </DialogTrigger>
+    <DialogTrigger
+      render={
+        <Button 
+          variant="destructive" 
+          className="rounded-xl font-medium shadow-sm bg-red-600 hover:bg-red-700 active:bg-red-800 text-white transition-all duration-200"
+        >
+          <Trash2 className="mr-2 h-4 w-4" />
+          Delete Workspace
+        </Button>
+      }
+    />
 
     {/* Added border-red-500/30 for container alert */}
     <DialogContent className="sm:max-w-[450px] p-0 overflow-hidden border border-red-500/30 bg-card shadow-2xl rounded-2xl">

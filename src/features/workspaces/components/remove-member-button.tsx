@@ -49,17 +49,18 @@ export function RemoveMemberButton({ memberId, memberName }: Props) {
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger>
-        {/* UPGRADED: Safe dynamic interactive row button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          className="rounded-xl h-9 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 active:scale-[0.98] transition-all duration-200"
-        >
-          <UserMinus className="h-4 w-4 mr-2" />
-          Remove
-        </Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="sm"
+            className="rounded-xl h-9 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 active:scale-[0.98] transition-all duration-200"
+          >
+            <UserMinus className="h-4 w-4 mr-2" />
+            Remove
+          </Button>
+        }
+      />
 
       {/* COMPLETE REDESIGN: Exact same solid aesthetic spec of delete workspace dialog */}
       <AlertDialogContent className="rounded-2xl border border-red-500/20 bg-card p-6 max-w-[420px] shadow-2xl shadow-red-500/[0.03]">
