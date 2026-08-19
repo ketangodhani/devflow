@@ -1,8 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-
 import { auth } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 interface InviteMemberProps {
   email: string;
@@ -22,48 +22,62 @@ export async function inviteMember({
       };
     }
 
-    // Check current user membership
-    const membership =
-      await prisma.workspaceMember.findFirst({
-        where: {
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail) {
+      return {
+        error: "Email is required",
+      };
+    }
+
+    // Check current user membership and role
+    const membership = await prisma.workspaceMember.findUnique({
+      where: {
+        workspaceId_userId: {
           workspaceId,
           userId: session.user.id,
         },
-      });
+      },
+    });
 
     if (!membership) {
       return {
-        error: "Unauthorized",
+        error: "Unauthorized: You are not a member of this workspace",
+      };
+    }
+
+    // Only OWNER and ADMIN can invite new members
+    if (membership.role !== "OWNER" && membership.role !== "ADMIN") {
+      return {
+        error: "Access Denied: Only workspace owners and admins can invite new members",
       };
     }
 
     // Find invited user
     const user = await prisma.user.findUnique({
       where: {
-        email,
+        email: cleanEmail,
       },
     });
 
     if (!user) {
       return {
-        error: "User not found",
+        error: "No registered user found with this email. Please ask them to sign up first.",
       };
     }
 
     // Prevent duplicate membership
-    const existingMember =
-      await prisma.workspaceMember.findUnique({
-        where: {
-          workspaceId_userId: {
-            workspaceId,
-            userId: user.id,
-          },
+    const existingMember = await prisma.workspaceMember.findUnique({
+      where: {
+        workspaceId_userId: {
+          workspaceId,
+          userId: user.id,
         },
-      });
+      },
+    });
 
     if (existingMember) {
       return {
-        error: "User already in workspace",
+        error: "User is already a member of this workspace",
       };
     }
 
@@ -71,18 +85,21 @@ export async function inviteMember({
       data: {
         workspaceId,
         userId: user.id,
+        role: "MEMBER",
       },
     });
 
+    revalidatePath("/members");
+    revalidatePath("/dashboard");
+
     return {
-      success: "Member invited",
+      success: `${user.name || cleanEmail} was added to the workspace`,
     };
-
   } catch (error) {
-    console.error(error);
+    console.error("INVITE_MEMBER_ERROR:", error);
 
     return {
-      error: "Something went wrong",
+      error: "Something went wrong while inviting member",
     };
   }
-}
+}

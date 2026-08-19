@@ -1,18 +1,16 @@
 "use server";
-import { auth } from "@/lib/auth";
+
 import { prisma } from "@/lib/prisma";
 import { createTaskSchema } from "@/lib/validations/task";
 import { TaskPriority, TaskStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { logActivity } from "../lib/activity";
-import { notify } from "../lib/notify";
+import { logActivity } from "@/lib/activity";
+import { notify } from "@/lib/notify";
+import { requireAuth, verifyProjectAccess, verifyTaskAccess } from "@/lib/auth-guard";
+import { formatStatus } from "@/lib/formatter";
 
 export async function createTask(formData: FormData) {
-  const session = await auth();
-
-  if (!session?.user?.id) {
-    throw new Error("Unauthorized");
-  }
+  const user = await requireAuth();
 
   const rawLabels = formData.get("labels");
   const parsedLabels = rawLabels
@@ -22,7 +20,7 @@ export async function createTask(formData: FormData) {
         .filter(Boolean)
     : [];
 
-  const rowData = {
+  const rawData = {
     title: formData.get("title"),
     description: formData.get("description") || undefined,
     projectId: formData.get("projectId"),
@@ -33,13 +31,18 @@ export async function createTask(formData: FormData) {
     labels: parsedLabels,
   };
 
-  const validated = createTaskSchema.safeParse(rowData);
+  const validated = createTaskSchema.safeParse(rawData);
   if (!validated.success) {
-    throw new Error("Invalid task fields");
+    const errorMessage =
+      validated.error.issues?.[0]?.message || "Invalid task fields";
+    throw new Error(errorMessage);
   }
 
   const { title, description, projectId, status, priority, assigneeId, dueDate, labels } =
     validated.data;
+
+  // Verifies that caller is a member of the project's workspace
+  const { project } = await verifyProjectAccess(projectId, user.id);
 
   const task = await prisma.task.create({
     data: {
@@ -54,34 +57,21 @@ export async function createTask(formData: FormData) {
     },
   });
 
-  const project = await prisma.project.findUnique({
-    where: {
-      id: projectId,
-    },
-    include: {
-      workspace: true,
-    },
-  });
-
-  if (!project?.workspace) {
-    throw new Error("Workspace not found");
-  }
-
   if (
-    project?.workspace.ownerId &&
-    project.workspace.ownerId !== session.user.id
+    project.workspace?.ownerId &&
+    project.workspace.ownerId !== user.id
   ) {
     await notify({
       userId: project.workspace.ownerId,
-      title: `${session.user.name || "A member"} created task "${task.title}"`,
+      title: `${user.name || "A member"} created task "${task.title}"`,
       link: `/projects/${projectId}/tasks/${task.id}`,
     });
   }
 
-  if (assigneeId && assigneeId !== session.user.id) {
+  if (assigneeId && assigneeId !== user.id) {
     await notify({
       userId: assigneeId,
-      title: `${session.user.name || "A teammate"} assigned you to task "${task.title}"`,
+      title: `${user.name || "A teammate"} assigned you to task "${task.title}"`,
       link: `/projects/${projectId}/tasks/${task.id}`,
     });
   }
@@ -90,7 +80,7 @@ export async function createTask(formData: FormData) {
     action: "Created",
     entityType: "Task",
     entityTitle: task.title,
-    userId: session.user.id,
+    userId: user.id,
     projectId: task.projectId,
     taskId: task.id,
   });
@@ -100,11 +90,13 @@ export async function createTask(formData: FormData) {
   revalidatePath(`/dashboard`);
 }
 
+
 export async function updateTaskStatus(taskId: string, status: TaskStatus) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    throw new Error("Unauthorized");
-  }
+  const user = await requireAuth();
+
+  // Verifies that caller is a member of the task's workspace
+  const { task: existingTask } = await verifyTaskAccess(taskId, user.id);
+
   const task = await prisma.task.update({
     where: {
       id: taskId,
@@ -113,14 +105,29 @@ export async function updateTaskStatus(taskId: string, status: TaskStatus) {
       status,
     },
   });
+
+  if (task.assigneeId && task.assigneeId !== user.id) {
+    await notify({
+      userId: task.assigneeId,
+      title: `Task "${task.title}" was moved to ${formatStatus(status)}`,
+      link: `/projects/${task.projectId}/tasks/${task.id}`,
+    });
+  }
+
   await logActivity({
-    action: `moved to ${status}`,
+    action: `Moved to ${formatStatus(status)}`,
     entityType: "Task",
     entityTitle: task.title,
-
-    userId: session.user.id,
-
+    userId: user.id,
     projectId: task.projectId,
+    taskId: task.id,
   });
+
+  revalidatePath(`/projects/${task.projectId}`);
+  revalidatePath(`/projects/${task.projectId}/tasks/${task.id}`);
   revalidatePath(`/projects`);
+  revalidatePath(`/dashboard`);
+
+  return task;
 }
+

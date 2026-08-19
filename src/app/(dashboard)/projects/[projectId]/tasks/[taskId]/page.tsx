@@ -1,23 +1,42 @@
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { redirect, notFound } from "next/navigation";
 import TaskDetailsContent from "@/components/tasks/task-details-content";
-import { getActiveWorkspace } from "@/features/workspaces/lib/get-active-workspace";
 
 interface Props {
   params: Promise<{
+    projectId: string;
     taskId: string;
   }>;
 }
 
 export default async function TaskPage({ params }: Props) {
-  const { taskId } = await params;
+  const session = await auth();
 
-  if (!taskId) {
-    return <div>Invalid task</div>;
+  if (!session?.user?.id) {
+    redirect("/login");
   }
 
-  const task = await prisma.task.findUnique({
+  const { taskId, projectId } = await params;
+
+  if (!taskId) {
+    notFound();
+  }
+
+  // Ensures only users belonging to the task's workspace can view the task details
+  const task = await prisma.task.findFirst({
     where: {
       id: taskId,
+      projectId: projectId,
+      project: {
+        workspace: {
+          members: {
+            some: {
+              userId: session.user.id,
+            },
+          },
+        },
+      },
     },
     include: {
       project: true,
@@ -42,28 +61,27 @@ export default async function TaskPage({ params }: Props) {
       attachments: true,
     },
   });
+
   if (!task) {
-    return <div>Task not found</div>;
+    notFound();
   }
-  const workspace = await getActiveWorkspace();
 
-  const members = await prisma.workspaceMember.findMany({
-    where: {
-      workspaceId: workspace?.id,
-    },
-
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
+  const members = task.project?.workspaceId
+    ? await prisma.workspaceMember.findMany({
+        where: {
+          workspaceId: task.project.workspaceId,
         },
-      },
-    },
-  });
+        include: {
+          user: true,
+        },
+      })
+    : [];
 
-  const users = members.map((member) => member.user);
+  const users = members.map((member) => ({
+    id: member.user.id,
+    name: member.user.name,
+    email: member.user.email,
+  }));
 
   return (
     <div className="px-6">
@@ -71,3 +89,5 @@ export default async function TaskPage({ params }: Props) {
     </div>
   );
 }
+
+
