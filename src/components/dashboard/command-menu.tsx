@@ -146,10 +146,23 @@ export function CommandMenu({ projects }: CommandMenuProps) {
                   {results.tasks.map((task) => (
                     <CommandItem
                       key={task.id}
-                      value={task.title}
+                      value={`${task.title} ${task.project?.title || ""}`}
+                      onSelect={() =>
+                        runCommand(() =>
+                          router.push(
+                            `/projects/${task.projectId}/tasks/${task.id}`
+                          )
+                        )
+                      }
+                      className="cursor-pointer"
                     >
-                      <CheckSquare className="mr-2 h-4 w-4" />
-                      {task.title}
+                      <CheckSquare className="mr-2 h-4 w-4 shrink-0 text-muted-foreground" />
+                      <span className="truncate">{task.title}</span>
+                      {task.project?.title && (
+                        <span className="ml-auto rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+                          {task.project.title}
+                        </span>
+                      )}
                     </CommandItem>
                   ))}
                 </CommandGroup>

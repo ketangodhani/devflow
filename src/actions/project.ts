@@ -30,26 +30,30 @@ export async function createProject(
     throw new Error("Invalid fields");
   }
 
-  const workspace = await getActiveWorkspace()
-  const { title, description } =
-    validatedFields.data;
+  const workspace = await getActiveWorkspace();
+  if (!workspace) {
+    throw new Error("No active workspace found");
+  }
 
- const project = await prisma.project.create({
+  const { title, description } = validatedFields.data;
+
+  const project = await prisma.project.create({
     data: {
       title,
       description,
       userId: session.user.id,
-      workspaceId: workspace?.id,
+      workspaceId: workspace.id,
     },
   });
+
   await logActivity({
-  action: "Created",
-  entityType: "Project",
-  entityTitle: project.title,
+    action: "Created",
+    entityType: "Project",
+    entityTitle: project.title,
+    userId: session.user.id,
+    projectId: project.id,
+  });
 
-  userId: session.user.id,
-
-  projectId: project.id,
-});
   revalidatePath("/projects");
+  revalidatePath("/dashboard");
 }

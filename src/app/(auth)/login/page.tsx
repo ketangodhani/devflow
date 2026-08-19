@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -79,13 +80,13 @@ export default function LoginPage() {
 
         <button
           disabled={loading}
-          className="w-full rounded-xl bg-foreground p-4 font-medium text-background transition hover:opacity-90"
+          className="w-full rounded-xl bg-foreground p-4 font-medium text-background transition hover:opacity-90 cursor-pointer disabled:opacity-50"
         >
-          {loading ? "Loading..." : "Login"}
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
 
-      <div className="my-6 h-px bg-zinc-800" />
+      <div className="my-6 h-px bg-border/60" />
 
       <button
         onClick={() =>
@@ -93,10 +94,20 @@ export default function LoginPage() {
             callbackUrl: "/dashboard",
           })
         }
-        className="w-full rounded-xl border border-border bg-card p-4 text-card-foreground transition hover:bg-card"
+        className="w-full rounded-xl border border-border bg-card p-4 text-card-foreground transition hover:bg-muted cursor-pointer"
       >
         Continue with GitHub
       </button>
+
+      <p className="mt-6 text-center text-sm text-muted-foreground">
+        Don&apos;t have an account?{" "}
+        <Link
+          href="/register"
+          className="font-medium text-foreground underline underline-offset-4 hover:opacity-80"
+        >
+          Sign Up
+        </Link>
+      </p>
 
     </div>
   );

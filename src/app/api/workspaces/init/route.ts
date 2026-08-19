@@ -1,52 +1,56 @@
 import { NextResponse } from "next/server";
-
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { createWorkspace } from "@/features/workspaces/lib/create-worksapce";
 
-export async function GET() {
+export async function GET(req: Request) {
   const session = await auth();
 
   if (!session?.user?.id) {
-    return NextResponse.redirect(
-      new URL("/login", process.env.NEXTAUTH_URL)
-    );
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  const workspaceMember =
-    await prisma.workspaceMember.findFirst({
-      where: {
-        userId: session.user.id,
-      },
-
-      include: {
-        workspace: true,
-      },
-
-      orderBy: {
-        createdAt: "asc",
-      },
-    });
+  let workspaceMember = await prisma.workspaceMember.findFirst({
+    where: {
+      userId: session.user.id,
+    },
+    include: {
+      workspace: true,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
 
   if (!workspaceMember?.workspace) {
-    return NextResponse.redirect(
-      new URL("/dashboard", process.env.NEXTAUTH_URL)
-    );
+    try {
+      const newWorkspace = await createWorkspace(
+        session.user.id,
+        `${session.user.name || "My"}'s Workspace`
+      );
+      workspaceMember = {
+        id: "temp",
+        workspaceId: newWorkspace.id,
+        userId: session.user.id,
+        role: "OWNER",
+        createdAt: new Date(),
+        workspace: newWorkspace,
+      };
+    } catch (e) {
+      console.error("Failed to auto-create workspace in init route:", e);
+    }
   }
 
-  const response = NextResponse.redirect(
-    new URL("/dashboard", process.env.NEXTAUTH_URL)
-  );
+  const response = NextResponse.redirect(new URL("/dashboard", req.url));
 
-  response.cookies.set(
-    "workspaceId",
-    workspaceMember.workspace.id,
-    {
+  if (workspaceMember?.workspace) {
+    response.cookies.set("workspaceId", workspaceMember.workspace.id, {
       httpOnly: true,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
       path: "/",
-    }
-  );
+    });
+  }
 
   return response;
 }

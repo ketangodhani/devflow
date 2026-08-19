@@ -6,6 +6,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
 
 import bcrypt from "bcryptjs";
+import { createWorkspace } from "@/features/workspaces/lib/create-worksapce";
 
 export const {
   handlers,
@@ -68,7 +69,35 @@ export const {
     signIn: "/login",
   },
 
+  events: {
+    async createUser({ user }) {
+      if (user?.id) {
+        try {
+          await createWorkspace(user.id, `${user.name || "My"}'s Workspace`);
+        } catch (error) {
+          console.error("Error auto-creating workspace in createUser event:", error);
+        }
+      }
+    },
+  },
+
   callbacks: {
+    async signIn({ user }) {
+      if (user?.id) {
+        try {
+          const existingMembership = await prisma.workspaceMember.findFirst({
+            where: { userId: user.id },
+          });
+          if (!existingMembership) {
+            await createWorkspace(user.id, `${user.name || "My"}'s Workspace`);
+          }
+        } catch (error) {
+          console.error("Error ensuring workspace in signIn callback:", error);
+        }
+      }
+      return true;
+    },
+
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;

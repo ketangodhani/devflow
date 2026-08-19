@@ -1,60 +1,57 @@
 "use server";
 
 import { auth } from "@/lib/auth";
-
 import { prisma } from "@/lib/prisma";
+import { getActiveWorkspace } from "@/features/workspaces/lib/get-active-workspace";
 
 export async function searchEverything(
   query: string
 ) {
   const session = await auth();
 
-  if (!session?.user?.id) {
+  if (!session?.user?.id || !query.trim()) {
     return {
       projects: [],
       tasks: [],
     };
   }
 
-  if (!query) {
+  const workspace = await getActiveWorkspace();
+
+  if (!workspace) {
     return {
       projects: [],
       tasks: [],
     };
   }
 
-  const projects =
-    await prisma.project.findMany({
+  const [projects, tasks] = await Promise.all([
+    prisma.project.findMany({
       where: {
-        userId: session.user.id,
-
+        workspaceId: workspace.id,
         title: {
-          contains: query,
+          contains: query.trim(),
           mode: "insensitive",
         },
       },
-
       take: 5,
-    });
-
-  const tasks = await prisma.task.findMany({
-    where: {
-      project: {
-        userId: session.user.id,
+    }),
+    prisma.task.findMany({
+      where: {
+        project: {
+          workspaceId: workspace.id,
+        },
+        title: {
+          contains: query.trim(),
+          mode: "insensitive",
+        },
       },
-
-      title: {
-        contains: query,
-        mode: "insensitive",
+      include: {
+        project: true,
       },
-    },
-
-    include: {
-      project: true,
-    },
-
-    take: 5,
-  });
+      take: 5,
+    }),
+  ]);
 
   return {
     projects,
