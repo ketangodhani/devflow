@@ -1,13 +1,10 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-
-import { auth } from "@/lib/auth";
-
 import { revalidatePath } from "next/cache";
-
 import { logActivity } from "@/lib/activity";
 import { notify } from "@/lib/notify";
+import { requireAuth, verifyTaskAccess } from "@/lib/auth-guard";
 
 interface Props {
   taskId: string;
@@ -16,34 +13,24 @@ interface Props {
 }
 
 export async function createComment({ taskId, content, projectId }: Props) {
-  const session = await auth();
-
-  if (!session?.user?.id) {
-    throw new Error("Unauthorized");
-  }
+  const user = await requireAuth();
 
   if (!content.trim()) return;
 
-  await prisma.comment.create({
+  const { task } = await verifyTaskAccess(taskId, user.id);
+
+  const comment = await prisma.comment.create({
     data: {
       content,
       taskId,
-      userId: session.user.id,
+      userId: user.id,
     },
   });
 
-  const task = await prisma.task.findUnique({
-    where: {
-      id: taskId,
-    },
-  });
-
-  if (task?.assigneeId) {
+  if (task.assigneeId && task.assigneeId !== user.id) {
     await notify({
       userId: task.assigneeId,
-
-      title: "New comment on your task",
-
+      title: `${user.name || "A teammate"} commented on task "${task.title}"`,
       link: `/projects/${projectId}/tasks/${task.id}`,
     });
   }
@@ -51,11 +38,12 @@ export async function createComment({ taskId, content, projectId }: Props) {
   await logActivity({
     action: "Added a comment",
     entityType: "task",
-    entityTitle: "a task",
-    userId: session.user.id,
+    entityTitle: task.title,
+    userId: user.id,
     projectId,
     taskId,
   });
 
   revalidatePath(`/projects/${projectId}/tasks/${taskId}`);
+  return comment;
 }

@@ -64,15 +64,17 @@ export default function DeleteTaskDialog({
         }
       }}
     >
-      <DialogTrigger className="w-full">
-        <Button
-          variant="destructive"
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-500 transition hover:bg-red-500/20 disabled:opacity-50"
-        >
-          <Trash2 className="mr-2 h-4 w-4" />
-          Delete Task
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <Button
+            variant="destructive"
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-500 transition hover:bg-red-500/20 disabled:opacity-50"
+          >
+            <Trash2 className="mr-2 h-4 w-4" />
+            Delete Task
+          </Button>
+        }
+      />
 
       <DialogContent className="sm:max-w-[450px] p-0 overflow-hidden border border-red-500/30 rounded-2xl">
         {/* Header */}

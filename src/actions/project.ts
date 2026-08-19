@@ -1,55 +1,54 @@
 "use server";
 
-import { auth } from "@/lib/auth";
-
 import { prisma } from "@/lib/prisma";
-
 import { revalidatePath } from "next/cache";
-
 import { createProjectSchema } from "@/lib/validations/project";
 import { logActivity } from "@/lib/activity";
 import { getActiveWorkspace } from "@/features/workspaces/lib/get-active-workspace";
-export async function createProject(
-  formData: FormData
-) {
-  const session = await auth();
+import { requireAuth, verifyWorkspaceAccess } from "@/lib/auth-guard";
 
-  if (!session?.user?.id) {
-    throw new Error("Unauthorized");
-  }
+export async function createProject(formData: FormData) {
+  const user = await requireAuth();
 
   const rawData = {
     title: formData.get("title"),
     description: formData.get("description"),
   };
 
-  const validatedFields =
-    createProjectSchema.safeParse(rawData);
+  const validatedFields = createProjectSchema.safeParse(rawData);
 
   if (!validatedFields.success) {
-    throw new Error("Invalid fields");
+    const errorMessage =
+      validatedFields.error.issues?.[0]?.message || "Invalid fields";
+    throw new Error(errorMessage);
   }
 
-  const workspace = await getActiveWorkspace()
-  const { title, description } =
-    validatedFields.data;
+  const workspace = await getActiveWorkspace();
+  if (!workspace) {
+    throw new Error("No active workspace found");
+  }
 
- const project = await prisma.project.create({
+  await verifyWorkspaceAccess(workspace.id, user.id);
+
+  const { title, description } = validatedFields.data;
+
+  const project = await prisma.project.create({
     data: {
       title,
       description,
-      userId: session.user.id,
-      workspaceId: workspace?.id,
+      userId: user.id,
+      workspaceId: workspace.id,
     },
   });
+
   await logActivity({
-  action: "Created",
-  entityType: "Project",
-  entityTitle: project.title,
+    action: "Created",
+    entityType: "Project",
+    entityTitle: project.title,
+    userId: user.id,
+    projectId: project.id,
+  });
 
-  userId: session.user.id,
-
-  projectId: project.id,
-});
   revalidatePath("/projects");
+  revalidatePath("/dashboard");
 }

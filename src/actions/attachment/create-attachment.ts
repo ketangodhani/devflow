@@ -1,18 +1,14 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-
-import { auth } from "@/lib/auth";
-
 import { revalidatePath } from "next/cache";
-
 import { logActivity } from "@/lib/activity";
 import { notify } from "@/lib/notify";
+import { requireAuth, verifyTaskAccess } from "@/lib/auth-guard";
 
 interface Props {
   taskId: string;
   projectId: string;
-
   name: string;
   url: string;
   fileKey: string;
@@ -25,47 +21,33 @@ export async function createAttachment({
   url,
   fileKey,
 }: Props) {
-  const session = await auth();
+  const user = await requireAuth();
 
-  if (!session?.user?.id) {
-    throw new Error("Unauthorized");
-  }
+  const { task } = await verifyTaskAccess(taskId, user.id);
 
   const attachment = await prisma.attachment.create({
     data: {
       name,
       url,
-
       taskId,
       fileKey,
-      uploadedById: session.user.id,
-    },
-  });
-  const task = await prisma.task.findUnique({
-    where: {
-      id: taskId,
-    },
-
-    select: {
-      id: true,
-      assigneeId: true,
+      uploadedById: user.id,
     },
   });
 
-  if (task?.assigneeId) {
+  if (task.assigneeId && task.assigneeId !== user.id) {
     await notify({
       userId: task.assigneeId,
-
-      title: "New attachment added",
-
+      title: `${user.name || "A teammate"} attached "${name}" to task "${task.title}"`,
       link: `/projects/${projectId}/tasks/${task.id}`,
     });
   }
+
   await logActivity({
     action: "Uploaded attachment",
     entityType: "task",
     entityTitle: name,
-    userId: session.user.id,
+    userId: user.id,
     projectId,
     taskId,
   });
@@ -73,3 +55,4 @@ export async function createAttachment({
   revalidatePath(`/projects/${projectId}/tasks/${taskId}`);
   return attachment;
 }
+

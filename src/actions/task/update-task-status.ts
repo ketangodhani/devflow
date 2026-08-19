@@ -2,22 +2,21 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-
 import { TaskStatus } from "@prisma/client";
 import { logActivity } from "@/lib/activity";
-import { auth } from "@/lib/auth";
 import { formatStatus } from "@/lib/formatter";
 import { notify } from "@/lib/notify";
+import { requireAuth, verifyTaskAccess } from "@/lib/auth-guard";
 
 export async function updateTaskStatusAction(
   taskId: string,
   status: TaskStatus,
   projectId: string,
 ) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    throw new Error("Unauthorized");
-  }
+  const user = await requireAuth();
+
+  await verifyTaskAccess(taskId, user.id);
+
   const task = await prisma.task.update({
     where: {
       id: taskId,
@@ -27,12 +26,10 @@ export async function updateTaskStatusAction(
     },
   });
 
-  if (task.assigneeId) {
+  if (task.assigneeId && task.assigneeId !== user.id) {
     await notify({
       userId: task.assigneeId,
-
-      title: `Task moved to ${status}`,
-
+      title: `Task "${task.title}" was moved to ${formatStatus(status)}`,
       link: `/projects/${projectId}/tasks/${task.id}`,
     });
   }
@@ -41,10 +38,13 @@ export async function updateTaskStatusAction(
     action: `Changed status to ${formatStatus(status)}`,
     entityType: "task",
     entityTitle: task.title,
-    userId: session!.user!.id,
+    userId: user.id,
     projectId: task.projectId,
     taskId,
   });
 
   revalidatePath(`/projects/${projectId}/tasks/${taskId}`);
+  revalidatePath(`/projects/${projectId}`);
+  return task;
 }
+

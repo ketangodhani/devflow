@@ -64,13 +64,14 @@ export function InviteMemberDialog({ workspaceId }: InviteMemberDialogProps) {
       setOpen(val);
       if (!val) setEmail(""); // Dialog close hone par form state completely clear kar do
     }}>
-      {/* FIXED: Added asChild to stop raw nesting rendering errors */}
-      <DialogTrigger>
-        <Button className="rounded-xl h-9 px-4 text-xs font-medium bg-foreground text-background hover:bg-foreground/90 transition-all shadow-sm">
-          <Plus className="h-3.5 w-3.5 mr-1.5 stroke-[2.5]" />
-          Invite Member
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <Button className="rounded-xl h-9 px-4 text-xs font-medium bg-foreground text-background hover:bg-foreground/90 transition-all shadow-sm">
+            <Plus className="h-3.5 w-3.5 mr-1.5 stroke-[2.5]" />
+            Invite Member
+          </Button>
+        }
+      />
 
       {/* Premium Obsidian-Compatible Overlay Grid Structure */}
       <DialogContent className="rounded-2xl border border-border/60 bg-card max-w-[400px] p-6 shadow-2xl">
