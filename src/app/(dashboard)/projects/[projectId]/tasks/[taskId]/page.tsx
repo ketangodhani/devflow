@@ -39,15 +39,28 @@ export default async function TaskPage({ params }: Props) {
       },
     },
     include: {
-      project: true,
+      project: {
+        include: {
+          workspace: true,
+        },
+      },
       activities: {
         where: {
           taskId: taskId,
         },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
+        },
         orderBy: {
           createdAt: "desc",
         },
-        take: 10,
       },
       assignee: true,
       comments: {
@@ -58,7 +71,21 @@ export default async function TaskPage({ params }: Props) {
           createdAt: "desc",
         },
       },
-      attachments: true,
+      attachments: {
+        include: {
+          uploadedBy: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
 
@@ -72,7 +99,14 @@ export default async function TaskPage({ params }: Props) {
           workspaceId: task.project.workspaceId,
         },
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
         },
       })
     : [];
@@ -84,8 +118,12 @@ export default async function TaskPage({ params }: Props) {
   }));
 
   return (
-    <div className="px-6">
-      <TaskDetailsContent task={task} users={users} />
+    <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      <TaskDetailsContent
+        task={task}
+        users={users}
+        currentUserId={session.user.id}
+      />
     </div>
   );
 }
